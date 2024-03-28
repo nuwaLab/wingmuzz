@@ -1,4 +1,4 @@
 # WingFuzz
-Wingfuzz is a collaborative fuzzing mechanism of leading flight and black-box wingmate.
+Wingfuzz is a collaborative fuzzing mechanism of blackbox leading flight and greybox wingman.
 
-Leading flight uses aflnet and wingmate uses boofuzz.
+Leading flight uses Boofuzz, Peach and Spike. Wingman uses Aflnet.
