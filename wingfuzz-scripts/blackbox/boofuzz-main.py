@@ -16,7 +16,6 @@ from boofuzz import *
 ''' =========== CONFIGURATION =========== '''
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
-WHITEBOX_HOST_IP = ""
 
 # Fuzz in specific duration time
 def test_for_duration(session, duration):
@@ -70,11 +69,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print()
     print("### Socket Start - Listening on port 12345...")
 
-    for index in range(0,12):
+    # Set 5 rounds, namely 10 hours
+    for index in range(0,5):
         session = Session(
             target = Target(
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
-                connection=TCPSocketConnection(str(WHITEBOX_HOST_IP), 4288, send_timeout=0.2)
+                connection=TCPSocketConnection("127.0.0.1", 4288, send_timeout=0.2)
             ),
             post_test_case_callbacks = [post_test_case_callback],
             web_port = None
