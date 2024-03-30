@@ -69,8 +69,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print()
     print("### Socket Start - Listening on port 12345...")
 
-    # Set 5 rounds, namely 10 hours
-    for index in range(0,5):
+    # Set 10 rounds, about 10 hours
+    for index in range(0, 10):
         session = Session(
             target = Target(
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
