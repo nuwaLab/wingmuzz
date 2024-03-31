@@ -85,7 +85,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s_random(msg_list[i],min_length=47, max_length=47)
             session.connect(s_get(f"Round-{index+1}-Orig:id{i}"))
 
-        test_for_duration(session, 3000)
+        # run for 55 mins, greybox runs 60 mins per round.
+        test_for_duration(session, 3300)
         #session.fuzz()
 
         conn, addr = s.accept()
@@ -106,19 +107,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     file = os.path.join(in_dir, f"White-Box-{formatted_time}.raw")
                     with open(file, 'wb') as f:
                         f.write(b_msg)
-                    
                 elif data.decode('utf-8') == 'stop':
                     now = datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
                     print(f"Black_Box_Fuzzing Quit - {formatted_time}")
                     print()
                     #stop_thread = True  
-                    break  
+                    break
         
         #wait_for_signal(in_dir)
         msg_list = read_in_dir(in_dir)
         #print(msg_list)
-
 
 p = execute(program_close)
 close_shm(shmid)

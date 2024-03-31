@@ -59,7 +59,7 @@ class wingman:
     def start(self):
         try:
             subprocess.check_call(self.boot, shell=True)  # boot 其实就是启动命令
-            print(f"{self.name} start ---")
+            print(f"[INFO] {self.name} start ---")
         except subprocess.CalledProcessError as e:
             print(f"{self.name} boot error : {e}")
     
@@ -67,9 +67,9 @@ class wingman:
     def shutdown(self):
         try:
             subprocess.check_call(self.close, shell=True)
-            print(f"{self.name} close ---")
+            print(f"[INFO] {self.name} close ---")
         except subprocess.CalledProcessError as e:
-            print(f"{self.name} close msg : {e}")
+            print(f"\033[0;33;m[WARN] {self.name} close msg : {e}\033[0m")
             
 # message sequence? actually seed corpus?
 class msg_sq:
