@@ -50,10 +50,10 @@ def record_msg(b_msg):
     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
     print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
     print(f"MSG - {b_msg}")
-    # record msg
     file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
     with open(file, 'wb') as f:
         f.write(b_msg)
+        time.sleep(6)  # need some time to write
 
 # s_initialize("NTP Packet")
 # s_binary("\\x1b")  # LI, VN, Mode
