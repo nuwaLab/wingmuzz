@@ -94,24 +94,29 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(f"Connected by {addr}")
             while True:
                 data = conn.recv(1024)
-                print()
-                if data.decode('utf-8').startswith('msg'):
-                    msg = data.decode('utf-8').split("|")[1]
-                    b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
+                if data.decode('utf-8').startswith('mesg'):
+                    msg_len = data.decode('utf-8').split(".")[1]
+                    msg = data.decode('utf-8').split(".")[2]
+                    res_data_len = int(msg_len) - 1018 + len(msg_len)
+                    # Sticky Packets and Packet Splitting
+                    if res_data_len <= 0:
+                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
+                    else:
+                        res_data = conn.recv(res_data_len)
+                        b_msg = bytes(msg.join(str(res_data)), 'latin-1').decode('unicode_escape').encode('latin-1')
+                    
                     now = datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
                     print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
                     print(f"MSG - {b_msg}")
-                    print()
                     # record msg
-                    file = os.path.join(in_dir, f"White-Box-{formatted_time}.raw")
+                    file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
                     with open(file, 'wb') as f:
                         f.write(b_msg)
                 elif data.decode('utf-8') == 'stop':
                     now = datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
                     print(f"Black_Box_Fuzzing Quit - {formatted_time}")
-                    print()
                     #stop_thread = True  
                     break
         
