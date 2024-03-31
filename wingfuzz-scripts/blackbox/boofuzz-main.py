@@ -13,16 +13,17 @@ import binascii
 import shutil
 from boofuzz import *
 
-''' =========== CONFIGURATION =========== '''
+''' =============== CONFIGURATION =============== '''
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
+DURATION_TIME = 3300    # seconds
+TARGET_PORT = 4288      # SUT working port
 
-program_close = "sudo pkill -9 -f dicom/repo/storescp"
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 in_dir = f"../../{str(PROTOCOL)}/in/"
 record_dir = f"../{str(PROTOCOL)}/out/record/"
-
 sum_bitmap = b''
+
 
 # Fuzz in specific duration time
 def test_for_duration(session, duration):
@@ -60,12 +61,11 @@ def record_msg(b_msg):
 # s_random("\\x00" * 47, min_length=47, max_length=47) 
 # session.connect(s_get("NTP Packet"))
 
-
+program_close = "sudo pkill -9 -f dicom/repo/storescp"
 shmid = open_shm()
 p = execute(program_close)
 
 program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {str(WORK_DIR)}/{str(PROTOCOL)}/repo/storescp_v3.6.8 4288 &"
-
 p = execute(program_boot)
 time.sleep(1)
 
@@ -84,7 +84,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         session = Session(
             target = Target(
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
-                connection=TCPSocketConnection("127.0.0.1", 4288, send_timeout=0.2)
+                connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
             ),
             post_test_case_callbacks = [post_test_case_callback],
             web_port = None
@@ -96,7 +96,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             session.connect(s_get(f"Round-{index+1}-Orig:id{i}"))
 
         # run for 55 mins, greybox runs 60 mins per round.
-        test_for_duration(session, 180)
+        test_for_duration(session, DURATION_TIME)
         #session.fuzz()
 
         conn, addr = s.accept()
