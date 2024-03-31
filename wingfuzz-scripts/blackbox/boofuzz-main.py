@@ -110,7 +110,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     test = conn.recv(8).decode('utf-8')
                     msg_len = test.split('.')[0]
                     part_msg = test.split('.')[1]
-                    res_data_len = int(msg_len) - 8 + len(msg_len)
+                    res_data_len = int(msg_len) - 7 + len(msg_len)
                     msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
                     b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
                     record_msg(b_msg)
