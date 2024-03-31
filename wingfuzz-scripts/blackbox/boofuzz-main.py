@@ -111,19 +111,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     msg_len = test.split('.')[0]
                     part_msg = test.split('.')[1]
                     res_data_len = int(msg_len) - 7 + len(msg_len)
-                    if int(msg_len) <= 1024:
-                        msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
-                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
-                        record_msg(b_msg)
-                    else:
-                        block_num = int(msg_len) // 1024
-                        msg += part_msg
-                        for i in range(0, block_num):
-                            msg += conn.recv(1024).decode('utf-8')
-                        msg += conn.recv(res_data_len - 1024 * block_num).decode('utf-8')
-                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
-                        record_msg(b_msg)
+                    recv_data = b''
+                    while len(recv_data) < res_data_len:
+                        data = conn.recv(res_data_len - len(recv_data))
+                        if not data:
+                            break
+                        recv_data += data
+                    msg = part_msg + recv_data.decode('utf-8')
+                    b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
                     print(len(b_msg))
+                    record_msg(b_msg)
                     # read another flag
                     flag = conn.recv(4)
                 elif flag.decode('utf-8') == 'stop' or flag == bytes():
