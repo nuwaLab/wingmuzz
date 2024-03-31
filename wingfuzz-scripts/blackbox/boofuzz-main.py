@@ -90,7 +90,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             web_port = None
         )
     
-        for i in range(0,len(msg_list)):
+        for i in range(0, len(msg_list)):
             s_initialize(name = f"Round-{index+1}-Orig:id{i}" )
             s_random(msg_list[i],min_length=47, max_length=47)
             session.connect(s_get(f"Round-{index+1}-Orig:id{i}"))
@@ -111,9 +111,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     msg_len = test.split('.')[0]
                     part_msg = test.split('.')[1]
                     res_data_len = int(msg_len) - 7 + len(msg_len)
-                    msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
-                    b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
-                    record_msg(b_msg)
+                    if int(msg_len) <= 1024:
+                        msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
+                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
+                        record_msg(b_msg)
+                    else:
+                        block_num = int(msg_len) // 1024
+                        msg += part_msg
+                        for i in range(0, block_num):
+                            msg += conn.recv(1024).decode('utf-8')
+                        msg += conn.recv(res_data_len - 1024 * block_num).decode('utf-8')
+                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
+                        record_msg(b_msg)
+                    print(len(b_msg))
                     # read another flag
                     flag = conn.recv(4)
                 elif flag.decode('utf-8') == 'stop' or flag == bytes():
