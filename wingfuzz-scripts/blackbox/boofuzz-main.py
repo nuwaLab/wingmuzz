@@ -114,7 +114,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
                     b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
                     record_msg(b_msg)
-                elif flag.decode('utf-8') == 'stop':
+                    # read another flag
+                    flag = flag = conn.recv(4)
+                elif flag.decode('utf-8') == 'stop' or flag == bytes():
                     now = datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
                     print(f"Black_Box_Fuzzing Quit - {formatted_time}")
