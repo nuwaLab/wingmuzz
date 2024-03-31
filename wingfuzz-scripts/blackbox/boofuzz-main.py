@@ -17,6 +17,13 @@ from boofuzz import *
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
 
+program_close = "sudo pkill -9 -f dicom/repo/storescp"
+# Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
+in_dir = f"../../{str(PROTOCOL)}/in/"
+record_dir = f"../{str(PROTOCOL)}/out/record/"
+
+sum_bitmap = b''
+
 # Fuzz in specific duration time
 def test_for_duration(session, duration):
     start_time = time.time()
@@ -36,14 +43,17 @@ def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kw
         formatted_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
         record_file = os.path.join(record_dir,f"{formatted_time}.txt")
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, record_file)
-    
 
-program_close = "sudo pkill -9 -f dicom/repo/storescp"
-# Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
-in_dir = f"../../{str(PROTOCOL)}/in/"
-record_dir = f"../{str(PROTOCOL)}/out/record/"
-
-sum_bitmap = b''
+# record message from grey-box
+def record_msg(b_msg):
+    now = datetime.now()
+    formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
+    print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
+    print(f"MSG - {b_msg}")
+    # record msg
+    file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
+    with open(file, 'wb') as f:
+        f.write(b_msg)
 
 # s_initialize("NTP Packet")
 # s_binary("\\x1b")  # LI, VN, Mode
@@ -92,28 +102,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         conn, addr = s.accept()
         with conn:
             print(f"Connected by {addr}")
+            flag = conn.recv(4)
             while True:
-                data = conn.recv(1024)
-                if data.decode('utf-8').startswith('mesg'):
-                    msg_len = data.decode('utf-8').split(".")[1]
-                    msg = data.decode('utf-8').split(".")[2]
-                    res_data_len = int(msg_len) - 1018 + len(msg_len)
-                    # Sticky Packets and Packet Splitting
-                    if res_data_len <= 0:
-                        b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
-                    else:
-                        res_data = conn.recv(res_data_len)
-                        b_msg = bytes(msg.join(str(res_data)), 'latin-1').decode('unicode_escape').encode('latin-1')
-                    
-                    now = datetime.now()
-                    formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
-                    print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
-                    print(f"MSG - {b_msg}")
-                    # record msg
-                    file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
-                    with open(file, 'wb') as f:
-                        f.write(b_msg)
-                elif data.decode('utf-8') == 'stop':
+                # Sticky Packets and Packet Splitting
+                if flag.decode('utf-8') == 'mesg':
+                    flag = bytes()  # set as null
+                    test = conn.recv(8).decode('utf-8')
+                    msg_len = test.split('.')[0]
+                    part_msg = test.split('.')[1]
+                    res_data_len = int(msg_len) - 8 + len(msg_len)
+                    msg = part_msg + conn.recv(res_data_len).decode('utf-8')            
+                    b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')    
+                    record_msg(b_msg)
+                elif flag.decode('utf-8') == 'stop':
                     now = datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
                     print(f"Black_Box_Fuzzing Quit - {formatted_time}")
