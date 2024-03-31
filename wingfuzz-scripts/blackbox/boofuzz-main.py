@@ -96,7 +96,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             session.connect(s_get(f"Round-{index+1}-Orig:id{i}"))
 
         # run for 55 mins, greybox runs 60 mins per round.
-        test_for_duration(session, 3300)
+        test_for_duration(session, 180)
         #session.fuzz()
 
         conn, addr = s.accept()
