@@ -13,15 +13,15 @@ import binascii
 import shutil
 from boofuzz import *
 
+# Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
-DURATION_TIME = 3000    # seconds
+DURATION_TIME = 180     # seconds
+COVR_COL_TIME = 60      # seconds
 TARGET_PORT = 4288      # SUT working port
-
-# Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
-in_dir = f"../../{str(PROTOCOL)}/in/"
-record_dir = f"../../{str(PROTOCOL)}/out/record/"
+IN_DIR = f"../../{str(PROTOCOL)}/in/"
+RECORD_PATH = f"../../{str(PROTOCOL)}/out/record/cov.log"
 sum_bitmap = b''
 
 
@@ -31,6 +31,7 @@ def test_for_duration(session, duration):
     while time.time() - start_time < duration:
         session.fuzz()
 
+# TODO: Seems not working...
 # Callback after each test case execution
 def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kwargs):
     global sum_bitmap
@@ -42,7 +43,7 @@ def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kw
         sum_bitmap = bitmap
     else:
         formatted_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-        record_file = os.path.join(record_dir,f"{formatted_time}.txt")
+        record_file = os.path.join(RECORD_PATH,f"{formatted_time}.txt")
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, record_file)
 
 # record message from grey-box
@@ -51,10 +52,22 @@ def record_msg(b_msg):
     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
     print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
     print(f"MSG - {b_msg}")
-    file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
+    file = os.path.join(IN_DIR, f"Grey-Box-{formatted_time}.raw")
     with open(file, 'wb') as f:
         f.write(b_msg)
         time.sleep(2)  # need some time to write
+
+# Collect coverage
+def col_coverage():
+    global sum_bitmap
+    
+    bitmap = get_bitmap(shmid)
+    clean_shm(shmid)
+    
+    if sum_bitmap == b'':
+        sum_bitmap = bitmap
+    else:
+        sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, RECORD_PATH)
 
 # s_initialize("NTP Packet")
 # s_binary("\\x1b")  # LI, VN, Mode
@@ -69,7 +82,7 @@ program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {str(WORK_DIR)}/{str(PROTOCOL)}/
 p = execute(program_boot)
 time.sleep(1)
 
-msg_list = read_in_dir(in_dir)
+msg_list = read_in_dir(IN_DIR)
 #print(msg_list)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -79,6 +92,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print()
     print("### Socket Start - Listening on port 12345...")
 
+    cov_timer = threading.Timer(COVR_COL_TIME, col_coverage)
+    cov_timer.start()
+
     # Set 10 rounds, about 10 hours
     for index in range(0, 10):
         session = Session(
@@ -86,7 +102,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
                 connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
             ),
-            post_test_case_callbacks = [post_test_case_callback],
+            # post_test_case_callbacks = [post_test_case_callback()],
             web_port = None
         )
     
@@ -119,7 +135,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         recv_data += data
                     msg = part_msg + recv_data.decode('utf-8')
                     b_msg = bytes(msg, 'latin-1').decode('unicode_escape').encode('latin-1')
-                    print(len(b_msg))
                     record_msg(b_msg)
                     # read another flag
                     flag = conn.recv(4)
@@ -131,9 +146,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     break
         
         #wait_for_signal(in_dir)
-        msg_list = read_in_dir(in_dir)
+        msg_list = read_in_dir(IN_DIR)
         #print(msg_list)
 
+cov_timer.cancel()
 p = execute(program_close)
 close_shm(shmid)
-
