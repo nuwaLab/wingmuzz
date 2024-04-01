@@ -21,7 +21,7 @@ TARGET_PORT = 4288      # SUT working port
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 in_dir = f"../../{str(PROTOCOL)}/in/"
-record_dir = f"../{str(PROTOCOL)}/out/record/"
+record_dir = f"../../{str(PROTOCOL)}/out/record/"
 sum_bitmap = b''
 
 
