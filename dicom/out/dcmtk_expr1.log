@@ -1,0 +1,157 @@
+[WARN] When fuzzing for the first time, please execute 'echo core >/proc/sys/kernel/core_pattern' with the root permission.
+[INFO] ============ Round 1 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] dcmtk_v3.6.5 start ---
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         FINDSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x03\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         ECHOSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x00\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'timeout'
+[INFO] Wingman resp: b'timeout'
+[WARN] dcmtk_v3.6.5 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.5_Dec start ---
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         FINDSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x03\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         ECHOSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x00\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'timeout'
+[INFO] Wingman resp: b'timeout'
+[WARN] dcmtk_v3.6.5_Dec close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5_Dec' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.7 start ---
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         FINDSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x03\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         ECHOSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x00\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'timeout'
+[INFO] Wingman resp: b'timeout'
+[WARN] dcmtk_v3.6.7 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.7' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.6 start ---
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         FINDSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x03\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         ECHOSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x00\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Wingman resp: b'timeout'
+[INFO] Wingman resp: b'timeout'
+[WARN] dcmtk_v3.6.6 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.6' died with <Signals.SIGKILL: 9>.
+[INFO] Target resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         FINDSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x03\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Target resp: b'\x02\x00\x00\x00\x00\xb8\x00\x01\x00\x00ANY-SCP         ECHOSCU         \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x151.2.840.10008.3.1.1.1!\x00\x00\x19\x01\x00\x00\x00@\x00\x00\x111.2.840.10008.1.2P\x00\x00:Q\x00\x00\x04\x00\x00@\x00R\x00\x00\x1b1.2.276.0.7230010.3.0.3.6.8U\x00\x00\x0fOFFIS_DCMTK_368'
+[INFO] Target resp: b'timeout'
+[INFO] Target resp: b'timeout'
+[INFO] Allocation: [900. 900. 900. 900.] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on dcmtk_v3.6.5 start ...
+[INFO] dcmtk_v3.6.5 start ---
+[INFO] Clean f../dicom/out/dcmtk_v3.6.5/round_1
+[INFO] Create f../dicom/out/dcmtk_v3.6.5/round_1
+[INFO] Fuzzing on dcmtk_v3.6.5 done ...
+[INFO] fuzzing on dcmtk_v3.6.5_Dec start ...
+[INFO] dcmtk_v3.6.5_Dec start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5_Dec/round_1
+[INFO] Fuzzing on dcmtk_v3.6.5_Dec done ...
+[INFO] fuzzing on dcmtk_v3.6.7 start ...
+[INFO] dcmtk_v3.6.7 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.7/round_1
+[INFO] Fuzzing on dcmtk_v3.6.7 done ...
+[INFO] fuzzing on dcmtk_v3.6.6 start ...
+[INFO] dcmtk_v3.6.6 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.6/round_1
+[INFO] Fuzzing on dcmtk_v3.6.6 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 197 
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000009,src:000007+000000,op:splice,rep:16
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000020,src:000010+000017,op:splice,rep:2
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000011,src:000001+000008,op:splice,rep:128
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000017,src:000000+000011,op:splice,rep:64
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000010,src:000001,op:havoc,rep:64
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000023,src:000002,op:havoc,rep:2
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000008,src:000003+000001,op:splice,rep:64
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000016,src:000007+000005,op:splice,rep:8
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000013,src:000007+000009,op:splice,rep:2
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_1/queue/id:000018,src:000000+000016,op:splice,rep:16
+[INFO] More information omitted ---
+[INFO] ============ Round 2 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] dcmtk_v3.6.5 start ---
+[WARN] dcmtk_v3.6.5 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.5_Dec start ---
+[WARN] dcmtk_v3.6.5_Dec close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5_Dec' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.7 start ---
+[WARN] dcmtk_v3.6.7 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.7' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.6 start ---
+[WARN] dcmtk_v3.6.6 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.6' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [900. 900. 900. 900.] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on dcmtk_v3.6.5 start ...
+[INFO] dcmtk_v3.6.5 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5/round_2
+[INFO] Fuzzing on dcmtk_v3.6.5 done ...
+[INFO] fuzzing on dcmtk_v3.6.5_Dec start ...
+[INFO] dcmtk_v3.6.5_Dec start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5_Dec/round_2
+[INFO] Fuzzing on dcmtk_v3.6.5_Dec done ...
+[INFO] fuzzing on dcmtk_v3.6.7 start ...
+[INFO] dcmtk_v3.6.7 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.7/round_2
+[INFO] Fuzzing on dcmtk_v3.6.7 done ...
+[INFO] fuzzing on dcmtk_v3.6.6 start ...
+[INFO] dcmtk_v3.6.6 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.6/round_2
+[INFO] Fuzzing on dcmtk_v3.6.6 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 192 
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000246,src:000245,op:havoc,rep:64
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000230,src:000144,op:havoc,rep:8
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000214,src:000064+000089,op:splice,rep:128
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000243,src:000069+000038,op:splice,rep:128
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000201,src:000052,op:havoc,rep:128
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000223,src:000092,op:havoc,rep:32
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000224,src:000098+000058,op:splice,rep:128
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000233,src:000144,op:havoc,rep:64
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000237,src:000144,op:havoc,rep:4
+[INFO] Seed Update --- ../dicom/out/dcmtk_v3.6.5/round_2/queue/id:000258,src:000256,op:havoc,rep:16
+[INFO] More information omitted ---
+[INFO] ============ Round 3 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] dcmtk_v3.6.5 start ---
+[WARN] dcmtk_v3.6.5 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.5_Dec start ---
+[WARN] dcmtk_v3.6.5_Dec close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5_Dec' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.7 start ---
+[WARN] dcmtk_v3.6.7 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.7' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.6 start ---
+[WARN] dcmtk_v3.6.6 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.6' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [973.22954578 857.07313914 884.84865754 884.84865754] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on dcmtk_v3.6.5 start ...
+[INFO] dcmtk_v3.6.5 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5/round_3
+[INFO] Fuzzing on dcmtk_v3.6.5 done ...
+[INFO] fuzzing on dcmtk_v3.6.5_Dec start ...
+[INFO] dcmtk_v3.6.5_Dec start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5_Dec/round_3
+[INFO] Fuzzing on dcmtk_v3.6.5_Dec done ...
+[INFO] fuzzing on dcmtk_v3.6.7 start ...
+[INFO] dcmtk_v3.6.7 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.7/round_3
+[INFO] Fuzzing on dcmtk_v3.6.7 done ...
+[INFO] fuzzing on dcmtk_v3.6.6 start ...
+[INFO] dcmtk_v3.6.6 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.6/round_3
+[INFO] Fuzzing on dcmtk_v3.6.6 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 0 
+[INFO] ============ Round 4 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] dcmtk_v3.6.5 start ---
+[WARN] dcmtk_v3.6.5 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.5_Dec start ---
+[WARN] dcmtk_v3.6.5_Dec close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.5_Dec' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.7 start ---
+[WARN] dcmtk_v3.6.7 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.7' died with <Signals.SIGKILL: 9>.
+[INFO] dcmtk_v3.6.6 start ---
+[WARN] dcmtk_v3.6.6 close msg : Command 'sudo pkill -9 -f dicom/repo/storescp_v3.6.6' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [890.57833184 907.20557223 906.01851882 896.1975771 ] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on dcmtk_v3.6.5 start ...
+[INFO] dcmtk_v3.6.5 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5/round_4
+[INFO] Fuzzing on dcmtk_v3.6.5 done ...
+[INFO] fuzzing on dcmtk_v3.6.5_Dec start ...
+[INFO] dcmtk_v3.6.5_Dec start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.5_Dec/round_4
+[INFO] Fuzzing on dcmtk_v3.6.5_Dec done ...
+[INFO] fuzzing on dcmtk_v3.6.7 start ...
+[INFO] dcmtk_v3.6.7 start ---
+[INFO] Create f../dicom/out/dcmtk_v3.6.7/round_4
