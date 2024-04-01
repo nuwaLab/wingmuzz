@@ -19,9 +19,9 @@ WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
 DURATION_TIME = 180     # seconds
 COVR_COL_TIME = 60      # seconds
-TARGET_PORT = 4288      # SUT working port
+TARGET_PORT = 4289      # SUT working port
 IN_DIR = f"../../{str(PROTOCOL)}/in/"
-RECORD_PATH = f"../../{str(PROTOCOL)}/out/record/cov.log"
+RECORD_PATH = f"../../{str(PROTOCOL)}/out/record/"
 sum_bitmap = b''
 
 
@@ -57,28 +57,13 @@ def record_msg(b_msg):
         f.write(b_msg)
         time.sleep(2)  # need some time to write
 
-# Collect coverage
-def col_coverage():
-    global sum_bitmap
-    
-    bitmap = get_bitmap(shmid)
-    clean_shm(shmid)
-    
-    if sum_bitmap == b'':
-        sum_bitmap = bitmap
-    else:
-        sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, RECORD_PATH)
-
-    print("[COV]", count_coverage(sum_bitmap))
-    threading.Timer(COVR_COL_TIME, col_coverage)
-
 
 # Begin to roll
 program_close = "sudo pkill -9 -f dicom/repo/storescp"
 shmid = open_shm()
 p = execute(program_close)
 
-program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {str(WORK_DIR)}/{str(PROTOCOL)}/repo/storescp_v3.6.8 4288 &"
+program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {str(WORK_DIR)}/{str(PROTOCOL)}/repo/storescp_v3.6.7 4289 &"
 p = execute(program_boot)
 time.sleep(1)
 
@@ -89,7 +74,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(("",12345))
     s.listen()
-    print()
+    print(f"### __AFL_SHM_ID={str(shmid)}")
     print("### Socket Start - Listening on port 12345...")
 
     # Set 10 rounds, about 10 hours
@@ -99,7 +84,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
                 connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
             ),
-            # post_test_case_callbacks = [post_test_case_callback()],
+            post_test_case_callbacks = [post_test_case_callback],
             web_port = None
         )
     
@@ -111,8 +96,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         # run for 55 mins, greybox runs 60 mins per round.
         test_for_duration(session, DURATION_TIME)
         #session.fuzz()
-
-        col_coverage()  # collect cov in interval time
 
         conn, addr = s.accept()
         with conn:
