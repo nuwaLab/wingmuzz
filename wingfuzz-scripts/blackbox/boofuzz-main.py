@@ -70,6 +70,7 @@ def col_coverage():
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, RECORD_PATH)
 
     print("[COV]", count_coverage(sum_bitmap))
+    threading.Timer(COVR_COL_TIME, col_coverage)
 
 
 # Begin to roll
@@ -91,9 +92,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print()
     print("### Socket Start - Listening on port 12345...")
 
-    cov_timer = threading.Timer(COVR_COL_TIME, col_coverage)
-    cov_timer.start()
-
     # Set 10 rounds, about 10 hours
     for index in range(0, 10):
         session = Session(
@@ -113,6 +111,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         # run for 55 mins, greybox runs 60 mins per round.
         test_for_duration(session, DURATION_TIME)
         #session.fuzz()
+
+        col_coverage()  # collect cov in interval time
 
         conn, addr = s.accept()
         with conn:
@@ -148,6 +148,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         msg_list = read_in_dir(IN_DIR)
         #print(msg_list)
 
-cov_timer.cancel()
 p = execute(program_close)
 close_shm(shmid)
