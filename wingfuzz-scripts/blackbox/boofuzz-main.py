@@ -16,7 +16,7 @@ from boofuzz import *
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
-DURATION_TIME = 3300    # seconds
+DURATION_TIME = 3000    # seconds
 TARGET_PORT = 4288      # SUT working port
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
@@ -54,7 +54,7 @@ def record_msg(b_msg):
     file = os.path.join(in_dir, f"Grey-Box-{formatted_time}.raw")
     with open(file, 'wb') as f:
         f.write(b_msg)
-        time.sleep(6)  # need some time to write
+        time.sleep(2)  # need some time to write
 
 # s_initialize("NTP Packet")
 # s_binary("\\x1b")  # LI, VN, Mode
