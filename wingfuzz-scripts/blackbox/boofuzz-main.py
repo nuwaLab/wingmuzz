@@ -46,7 +46,7 @@ def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kw
         record_file = os.path.join(RECORD_PATH,f"{formatted_time}.txt")
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, record_file)
 
-# record message from grey-box
+# Record message from grey-box
 def record_msg(b_msg):
     now = datetime.now()
     formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
@@ -69,11 +69,10 @@ def col_coverage():
     else:
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, RECORD_PATH)
 
-# s_initialize("NTP Packet")
-# s_binary("\\x1b")  # LI, VN, Mode
-# s_random("\\x00" * 47, min_length=47, max_length=47) 
-# session.connect(s_get("NTP Packet"))
+    print("[COV]", count_coverage(sum_bitmap))
 
+
+# Begin to roll
 program_close = "sudo pkill -9 -f dicom/repo/storescp"
 shmid = open_shm()
 p = execute(program_close)
