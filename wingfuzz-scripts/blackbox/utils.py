@@ -13,6 +13,8 @@ import binascii
 import shutil
 
 
+COV_LOG = "./cov.log"
+
 try:
     rt = CDLL('librt.so')
 except:
@@ -138,7 +140,9 @@ def update_sum_bitmap(bitmap, sum_bitmap, out):
             b[i] = a[i]
     sum_bitmap = bytes(b)
 
-    print(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}")
+    cov_f = open(COV_LOG, 'w')
+    cov_f.write(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}")
+    cov_f.close()
     
     if count_coverage(bitmap) > count_coverage(sum_bitmap):
         with open(out,'a') as f:
