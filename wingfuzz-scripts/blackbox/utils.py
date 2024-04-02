@@ -14,6 +14,7 @@ import shutil
 
 
 COV_LOG = "./cov.log"
+CUR_COV = 0.0
 
 try:
     rt = CDLL('librt.so')
@@ -127,7 +128,10 @@ def count_coverage(bitmap):
     coverage = round( (b / len(bitmap) ) * 100, 4 )
     return coverage
 
-def update_sum_bitmap(bitmap, sum_bitmap, out):  
+# TODO: OOM occures
+def update_sum_bitmap(bitmap, sum_bitmap, out):
+    global CUR_COV
+
     if len(bitmap) != len(sum_bitmap):
         print('[-] Error in [if_interesting] 1 - something wrong with length of bitmap')
         sys.exit(0)
@@ -140,15 +144,20 @@ def update_sum_bitmap(bitmap, sum_bitmap, out):
             b[i] = a[i]
     sum_bitmap = bytes(b)
 
-    cov_f = open(COV_LOG, 'a')
-    cov_f.write(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}\r\n")
-    cov_f.close()
+    stamp = str(int(time.time()))
+    new_cov = count_coverage(sum_bitmap)
+
+    # only record new coverage update
+    if new_cov > CUR_COV:
+        CUR_COV = new_cov
+        cov_f = open(COV_LOG, 'a+')
+        cov_f.write(f"{stamp} Coverage = {new_cov}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}\r\n")
+        cov_f.close()
     
-    if count_coverage(bitmap) > count_coverage(sum_bitmap):
+    if count_coverage(bitmap) > new_cov:
         with open(out,'a') as f:
-            stamp = str(int(time.time()))
-            f.write(f"{stamp}|{count_coverage(sum_bitmap)}|{count_non_zero_bytes(sum_bitmap)}\n")
-        print(f"Coverage = {count_coverage(sum_bitmap)}%")
+            f.write(f"{stamp}|{new_cov}|{count_non_zero_bytes(sum_bitmap)}\n")
+        print(f"Coverage = {new_cov}%")
         
     return sum_bitmap
 
@@ -187,12 +196,3 @@ def wait_for_signal(in_dir):
                     #stop_thread = True  
                     break  
 
-
-
-
-
-
-
-        
-
-            

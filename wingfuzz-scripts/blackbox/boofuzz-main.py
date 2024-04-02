@@ -30,7 +30,6 @@ def test_for_duration(session, duration):
     while time.time() - start_time < duration:
         session.fuzz()
 
-# TODO: Seems not working...
 # Callback after each test case execution
 def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kwargs):
     global sum_bitmap
