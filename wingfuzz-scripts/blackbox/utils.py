@@ -126,8 +126,6 @@ def count_coverage(bitmap):
     return coverage
 
 def update_sum_bitmap(bitmap, sum_bitmap, out):  
-    print("Now update sum bitmap.")
-    
     if len(bitmap) != len(sum_bitmap):
         print('[-] Error in [if_interesting] 1 - something wrong with length of bitmap')
         sys.exit(0)
@@ -140,7 +138,7 @@ def update_sum_bitmap(bitmap, sum_bitmap, out):
             b[i] = a[i]
     sum_bitmap = bytes(b)
 
-    #print(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}")
+    print(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}")
     
     if count_coverage(bitmap) > count_coverage(sum_bitmap):
         with open(out,'a') as f:
