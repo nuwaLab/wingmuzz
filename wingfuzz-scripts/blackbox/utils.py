@@ -140,8 +140,8 @@ def update_sum_bitmap(bitmap, sum_bitmap, out):
             b[i] = a[i]
     sum_bitmap = bytes(b)
 
-    cov_f = open(COV_LOG, 'w')
-    cov_f.write(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}")
+    cov_f = open(COV_LOG, 'a')
+    cov_f.write(f"Coverage = {count_coverage(sum_bitmap)}% | No.Edge = {count_non_zero_bytes(sum_bitmap)}\r\n")
     cov_f.close()
     
     if count_coverage(bitmap) > count_coverage(sum_bitmap):

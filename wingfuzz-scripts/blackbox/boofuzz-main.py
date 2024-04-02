@@ -17,8 +17,7 @@ from boofuzz import *
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "/home/dez/wingfuzz"
 PROTOCOL = "dicom"
-DURATION_TIME = 180     # seconds
-COVR_COL_TIME = 60      # seconds
+DURATION_TIME = 3000     # seconds
 TARGET_PORT = 4289      # SUT working port
 IN_DIR = f"../../{str(PROTOCOL)}/in/"
 RECORD_PATH = f"../../{str(PROTOCOL)}/out/record/"
