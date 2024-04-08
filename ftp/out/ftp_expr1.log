@@ -1,0 +1,137 @@
+[WARN] When fuzzing for the first time, please execute 'echo core >/proc/sys/kernel/core_pattern' with the root permission.
+[INFO] ============ Round 1 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] pureftpd_v1.0.50 start ---
+[WARN] pureftpd_v1.0.50 close msg : Command 'sudo pkill -9 -f pureftpd' died with <Signals.SIGKILL: 9>.
+[INFO] vsftpd_v3.0.5 start ---
+[WARN] vsftpd_v3.0.5 close msg : Command 'sudo pkill -9 -f vsftpd' died with <Signals.SIGKILL: 9>.
+[INFO] bftpd_v6.2 start ---
+[WARN] bftpd_v6.2 close msg : Command 'sudo pkill -9 -f bftpd' died with <Signals.SIGKILL: 9>.
+[INFO] LightFTP_v2.2 start ---
+[WARN] LightFTP_v2.2 close msg : Command 'sudo pkill -9 -f LightFTP' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [ 745.20331623  625.34544019 1490.40663245  739.04461113] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on pureftpd_v1.0.50 start ...
+[INFO] pureftpd_v1.0.50 start ---
+[INFO] Create f../ftp/out/pureftpd_v1.0.50/round_1
+[INFO] Fuzzing on pureftpd_v1.0.50 done ...
+[INFO] fuzzing on vsftpd_v3.0.5 start ...
+[INFO] vsftpd_v3.0.5 start ---
+[INFO] Create f../ftp/out/vsftpd_v3.0.5/round_1
+[INFO] Fuzzing on vsftpd_v3.0.5 done ...
+[INFO] fuzzing on bftpd_v6.2 start ...
+[INFO] bftpd_v6.2 start ---
+[INFO] Create f../ftp/out/bftpd_v6.2/round_1
+[INFO] Fuzzing on bftpd_v6.2 done ...
+[INFO] fuzzing on LightFTP_v2.2 start ...
+[INFO] LightFTP_v2.2 start ---
+[INFO] Create f../ftp/out/LightFTP_v2.2/round_1
+[INFO] Fuzzing on LightFTP_v2.2 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 44 
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000032,src:000000+000006,op:splice,rep:2
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000031,src:000000+000006,op:splice,rep:32
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000037,src:000000+000006,op:splice,rep:64
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000033,src:000000+000006,op:splice,rep:32
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000030,src:000000+000006,op:splice,rep:128
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000035,src:000000+000006,op:splice,rep:4
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000028,src:000000+000024,op:splice,rep:16
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000038,src:000000+000006,op:splice,rep:32
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000029,src:000000+000006,op:splice,rep:2
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_1/queue/id:000034,src:000000+000006,op:splice,rep:4
+[INFO] More information omitted ---
+[INFO] ============ Round 2 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] pureftpd_v1.0.50 start ---
+[WARN] pureftpd_v1.0.50 close msg : Command 'sudo pkill -9 -f pureftpd' died with <Signals.SIGKILL: 9>.
+[INFO] vsftpd_v3.0.5 start ---
+[WARN] vsftpd_v3.0.5 close msg : Command 'sudo pkill -9 -f vsftpd' died with <Signals.SIGKILL: 9>.
+[INFO] bftpd_v6.2 start ---
+[WARN] bftpd_v6.2 close msg : Command 'sudo pkill -9 -f bftpd' died with <Signals.SIGKILL: 9>.
+[INFO] LightFTP_v2.2 start ---
+[WARN] LightFTP_v2.2 close msg : Command 'sudo pkill -9 -f LightFTP' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [ 560.41168514 1370.98957067 1104.94768515  563.65105904] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on pureftpd_v1.0.50 start ...
+[INFO] pureftpd_v1.0.50 start ---
+[INFO] Create f../ftp/out/pureftpd_v1.0.50/round_2
+[INFO] Fuzzing on pureftpd_v1.0.50 done ...
+[INFO] fuzzing on vsftpd_v3.0.5 start ...
+[INFO] vsftpd_v3.0.5 start ---
+[INFO] Create f../ftp/out/vsftpd_v3.0.5/round_2
+[INFO] Fuzzing on vsftpd_v3.0.5 done ...
+[INFO] fuzzing on bftpd_v6.2 start ...
+[INFO] bftpd_v6.2 start ---
+[INFO] Create f../ftp/out/bftpd_v6.2/round_2
+[INFO] Fuzzing on bftpd_v6.2 done ...
+[INFO] fuzzing on LightFTP_v2.2 start ...
+[INFO] LightFTP_v2.2 start ---
+[INFO] Create f../ftp/out/LightFTP_v2.2/round_2
+[INFO] Fuzzing on LightFTP_v2.2 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 5 
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_2/queue/id:000076,src:000000+000059,op:splice,rep:128
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_2/queue/id:000074,src:000000+000059,op:splice,rep:16
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_2/queue/id:000073,src:000000+000059,op:splice,rep:8
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_2/queue/id:000075,src:000000+000059,op:splice,rep:128
+[INFO] Seed Update --- ../ftp/out/pureftpd_v1.0.50/round_2/queue/id:000072,src:000000,op:havoc,rep:4
+[INFO] ============ Round 3 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] pureftpd_v1.0.50 start ---
+[WARN] pureftpd_v1.0.50 close msg : Command 'sudo pkill -9 -f pureftpd' died with <Signals.SIGKILL: 9>.
+[INFO] vsftpd_v3.0.5 start ---
+[WARN] vsftpd_v3.0.5 close msg : Command 'sudo pkill -9 -f vsftpd' died with <Signals.SIGKILL: 9>.
+[INFO] bftpd_v6.2 start ---
+[WARN] bftpd_v6.2 close msg : Command 'sudo pkill -9 -f bftpd' died with <Signals.SIGKILL: 9>.
+[INFO] LightFTP_v2.2 start ---
+[WARN] LightFTP_v2.2 close msg : Command 'sudo pkill -9 -f LightFTP' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [ 801.2440512  1057.76173625 1008.10862487  732.88558768] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on pureftpd_v1.0.50 start ...
+[INFO] pureftpd_v1.0.50 start ---
+[INFO] Create f../ftp/out/pureftpd_v1.0.50/round_3
+[INFO] Fuzzing on pureftpd_v1.0.50 done ...
+[INFO] fuzzing on vsftpd_v3.0.5 start ...
+[INFO] vsftpd_v3.0.5 start ---
+[INFO] Create f../ftp/out/vsftpd_v3.0.5/round_3
+[INFO] Fuzzing on vsftpd_v3.0.5 done ...
+[INFO] fuzzing on bftpd_v6.2 start ...
+[INFO] bftpd_v6.2 start ---
+[INFO] Create f../ftp/out/bftpd_v6.2/round_3
+[INFO] Fuzzing on bftpd_v6.2 done ...
+[INFO] fuzzing on LightFTP_v2.2 start ...
+[INFO] LightFTP_v2.2 start ---
+[INFO] Create f../ftp/out/LightFTP_v2.2/round_3
+[INFO] Fuzzing on LightFTP_v2.2 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 0 
+[INFO] ============ Round 4 ============
+[INFO] +++++++ Allocating Energy +++++++
+[INFO] pureftpd_v1.0.50 start ---
+[WARN] pureftpd_v1.0.50 close msg : Command 'sudo pkill -9 -f pureftpd' died with <Signals.SIGKILL: 9>.
+[INFO] vsftpd_v3.0.5 start ---
+[WARN] vsftpd_v3.0.5 close msg : Command 'sudo pkill -9 -f vsftpd' died with <Signals.SIGKILL: 9>.
+[INFO] bftpd_v6.2 start ---
+[WARN] bftpd_v6.2 close msg : Command 'sudo pkill -9 -f bftpd' died with <Signals.SIGKILL: 9>.
+[INFO] LightFTP_v2.2 start ---
+[WARN] LightFTP_v2.2 close msg : Command 'sudo pkill -9 -f LightFTP' died with <Signals.SIGKILL: 9>.
+[INFO] Allocation: [ 808.17317948  909.51471813 1074.13892291  808.17317948] seconds
+[INFO] ++++++++ Wingmate Fuzzing ++++++++
+[INFO] fuzzing on pureftpd_v1.0.50 start ...
+[INFO] pureftpd_v1.0.50 start ---
+[INFO] Create f../ftp/out/pureftpd_v1.0.50/round_4
+[INFO] Fuzzing on pureftpd_v1.0.50 done ...
+[INFO] fuzzing on vsftpd_v3.0.5 start ...
+[INFO] vsftpd_v3.0.5 start ---
+[INFO] Create f../ftp/out/vsftpd_v3.0.5/round_4
+[INFO] Fuzzing on vsftpd_v3.0.5 done ...
+[INFO] fuzzing on bftpd_v6.2 start ...
+[INFO] bftpd_v6.2 start ---
+[INFO] Create f../ftp/out/bftpd_v6.2/round_4
+[INFO] Fuzzing on bftpd_v6.2 done ...
+[INFO] fuzzing on LightFTP_v2.2 start ...
+[INFO] LightFTP_v2.2 start ---
+[INFO] Create f../ftp/out/LightFTP_v2.2/round_4
+[INFO] Fuzzing on LightFTP_v2.2 done ...
+[INFO] +++++++ Updating Seed Corpus +++++++
+[INFO] New seeds found: 0 
