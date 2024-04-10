@@ -1,26 +1,22 @@
 import os
-from utils import *
-import socket
-import random
-from datetime import datetime 
-import threading
+import gc
 import time
+import socket
+from utils import *
+from datetime import datetime 
 from ctypes import *
-import sys
-import subprocess
 from bitarray import bitarray
-import binascii
-import shutil
 from boofuzz import *
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
-WORK_DIR = "/home/dez/wingfuzz"
-PROTOCOL = "dicom"
-DURATION_TIME = 3000     # seconds
-TARGET_PORT = 4289      # SUT working port
-IN_DIR = f"../../{str(PROTOCOL)}/in/"
-RECORD_PATH = f"../../{str(PROTOCOL)}/out/record/"
+WORK_DIR = "~/wingfuzz"
+PROTOCOL = "ftp"
+DURATION_TIME = 3000    # Seconds
+TARGET_PORT = 21        # SUT working port
+BINARY = "proftpd_v1.3.8"
+IN_DIR = f"../../{PROTOCOL}/in/"
+RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
 
 
@@ -57,11 +53,11 @@ def record_msg(b_msg):
 
 
 # Begin to roll
-program_close = "sudo pkill -9 -f dicom/repo/storescp"
+program_close = f"sudo pkill -9 -f {PROTOCOL}/repo/{BINARY}"
 shmid = open_shm()
 p = execute(program_close)
 
-program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {str(WORK_DIR)}/{str(PROTOCOL)}/repo/storescp_v3.6.7 4289 &"
+program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -c ~/proftpd-v1.3.8/etc/proftpd.conf &"
 p = execute(program_boot)
 time.sleep(1)
 
@@ -77,6 +73,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
     # Set 10 rounds, about 10 hours
     for index in range(0, 10):
+        # Prevent OOM
+        gc.collect()
+        # Start boofuzz
         session = Session(
             target = Target(
                 # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
