@@ -1,23 +1,18 @@
 import os
-from utils import *
-import socket
-import random
-from datetime import datetime 
-import threading
+import gc
 import time
+import socket
+from utils import *
+from datetime import datetime 
 from ctypes import *
-import sys
-import subprocess
 from bitarray import bitarray
-import binascii
-import shutil
 from boofuzz import *
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "~/wingfuzz"
 PROTOCOL = "ftp"
-DURATION_TIME = 36000     # seconds
+DURATION_TIME = 3600     # seconds
 TARGET_PORT = 21      # SUT working port
 BINARY = "proftpd_v1.3.8"
 IN_DIR = f"../../{PROTOCOL}/init_in/"
@@ -71,23 +66,27 @@ msg_list = read_in_dir(IN_DIR)
 
 print(f"### __AFL_SHM_ID={str(shmid)}")
 
-session = Session(
-    target = Target(
-        # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
-        connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
-    ),
-    post_test_case_callbacks = [post_test_case_callback],
-    web_port = None
-)
+# Set 10 rounds, about 10 hours
+for index in range(0, 10):
+    # Prevent OOM
+    gc.collect()
+    # Start boofuzz
+    session = Session(
+        target = Target(
+            # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
+            connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
+        ),
+        post_test_case_callbacks = [post_test_case_callback],
+        web_port = None
+    )
     
-for i in range(0, len(msg_list)):
-    s_initialize(name = f"Round-1-Orig:id{i}" )
-    s_random(msg_list[i], min_length=47, max_length=47)
-    session.connect(s_get(f"Round-1-Orig:id{i}"))
+    for i in range(0, len(msg_list)):
+        s_initialize(name = f"Round-1-Orig:id{i}" )
+        s_random(msg_list[i], min_length=47, max_length=47)
+        session.connect(s_get(f"Round-1-Orig:id{i}"))
 
-# run for 60 mins, and run 10 rounds
-test_for_duration(session, DURATION_TIME)
-#session.fuzz()
+    # run for 60 mins, and run 10 rounds
+    test_for_duration(session, DURATION_TIME)
 
 
 p = execute(program_close)
