@@ -11,11 +11,11 @@ from boofuzz import *
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "~/wingfuzz"
-PROTOCOL = "ftp"
+PROTOCOL = "ssh"
 DURATION_TIME = 3600     # seconds
-TARGET_PORT = 21      # SUT working port
-BINARY = "proftpd_v1.3.8"
-IN_DIR = f"../../{PROTOCOL}/init_in/"
+TARGET_PORT = 22      # SUT working port
+BINARY = "openssh_v8.2p1"
+IN_DIR = f"../../{PROTOCOL}/in/"
 RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
 
@@ -57,7 +57,7 @@ program_close = f"sudo pkill -9 -f {PROTOCOL}/repo/{BINARY}"
 shmid = open_shm()
 p = execute(program_close)
 
-program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -c ~/proftpd-v1.3.8/etc/proftpd.conf &"
+program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
 p = execute(program_boot)
 time.sleep(1)
 
@@ -81,9 +81,9 @@ for index in range(0, 10):
     )
     
     for i in range(0, len(msg_list)):
-        s_initialize(name = f"Round-1-Orig:id{i}" )
+        s_initialize(name = f"Round-{index}-Orig:id{i}" )
         s_random(msg_list[i], min_length=47, max_length=47)
-        session.connect(s_get(f"Round-1-Orig:id{i}"))
+        session.connect(s_get(f"Round-{index}-Orig:id{i}"))
 
     # run for 60 mins, and run 10 rounds
     test_for_duration(session, DURATION_TIME)
