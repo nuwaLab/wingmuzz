@@ -11,10 +11,10 @@ from boofuzz import *
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "~/wingfuzz"
-PROTOCOL = "ssh"
+PROTOCOL = "dicom"
 DURATION_TIME = 3600     # seconds
-TARGET_PORT = 22      # SUT working port
-BINARY = "openssh_v8.2p1"
+TARGET_PORT = 4280      # SUT working port
+BINARY = "storescp_v3.6.7"
 IN_DIR = f"../../{PROTOCOL}/in/"
 RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
@@ -57,7 +57,7 @@ program_close = f"sudo pkill -9 -f {PROTOCOL}/repo/{BINARY}"
 shmid = open_shm()
 p = execute(program_close)
 
-program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
+program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -ll fatal 4280 &"
 p = execute(program_boot)
 time.sleep(1)
 
@@ -66,23 +66,25 @@ msg_list = read_in_dir(IN_DIR)
 
 print(f"### __AFL_SHM_ID={str(shmid)}")
 
+# Start boofuzz
+session = Session(
+    target = Target(
+        # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
+        connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
+    ),
+    post_test_case_callbacks = [post_test_case_callback],
+    web_port = None
+)
+
 # Set 10 rounds, about 10 hours
 for index in range(0, 10):
     # Prevent OOM
     gc.collect()
-    # Start boofuzz
-    session = Session(
-        target = Target(
-            # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
-            connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
-        ),
-        post_test_case_callbacks = [post_test_case_callback],
-        web_port = None
-    )
     
     for i in range(0, len(msg_list)):
         s_initialize(name = f"Round-{index}-Orig:id{i}" )
-        s_random(msg_list[i], min_length=47, max_length=47)
+        # MIN and MAX length should fit with protocols.
+        s_random(msg_list[i], min_length=500, max_length=3000, num_mutations=50)
         session.connect(s_get(f"Round-{index}-Orig:id{i}"))
 
     # run for 60 mins, and run 10 rounds
