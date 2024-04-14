@@ -62,7 +62,6 @@ p = execute(program_boot)
 time.sleep(1)
 
 msg_list = read_in_dir(IN_DIR)
-#print(msg_list)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -124,9 +123,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     #stop_thread = True  
                     break
         
-        #wait_for_signal(in_dir)
         msg_list = read_in_dir(IN_DIR)
-        #print(msg_list)
 
 p = execute(program_close)
 close_shm(shmid)

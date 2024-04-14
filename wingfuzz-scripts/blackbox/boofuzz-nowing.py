@@ -62,7 +62,6 @@ p = execute(program_boot)
 time.sleep(1)
 
 msg_list = read_in_dir(IN_DIR)
-#print(msg_list)
 
 print(f"### __AFL_SHM_ID={str(shmid)}")
 
@@ -79,7 +78,8 @@ session = Session(
 # Set 10 rounds, about 10 hours
 for index in range(0, 10):
     # Prevent OOM
-    gc.collect()
+    mem = gc.collect()
+    print(f"{mem} have been collected.")
     
     for i in range(0, len(msg_list)):
         s_initialize(name = f"Round-{index}-Orig:id{i}" )
