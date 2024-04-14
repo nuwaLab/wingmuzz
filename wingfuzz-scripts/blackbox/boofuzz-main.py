@@ -11,10 +11,10 @@ from boofuzz import *
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
 ''' =============== CONFIGURATION =============== '''
 WORK_DIR = "~/wingfuzz"
-PROTOCOL = "ftp"
+PROTOCOL = "ssh"
 DURATION_TIME = 3000    # Seconds
-TARGET_PORT = 21        # SUT working port
-BINARY = "proftpd_v1.3.8"
+TARGET_PORT = 22        # SUT working port
+BINARY = "openssh_v8.2p1"
 IN_DIR = f"../../{PROTOCOL}/in/"
 RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
@@ -57,7 +57,7 @@ program_close = f"sudo pkill -9 -f {PROTOCOL}/repo/{BINARY}"
 shmid = open_shm()
 p = execute(program_close)
 
-program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -c ~/proftpd-v1.3.8/etc/proftpd.conf &"
+program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
 p = execute(program_boot)
 time.sleep(1)
 
@@ -71,19 +71,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print(f"### __AFL_SHM_ID={str(shmid)}")
     print("### Socket Start - Listening on port 12345...")
 
+    session = Session(
+        target = Target(
+            # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
+            connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
+        ),
+        post_test_case_callbacks = [post_test_case_callback],
+        web_port = None
+    )
+
     # Set 10 rounds, about 10 hours
     for index in range(0, 10):
         # Prevent OOM
         gc.collect()
-        # Start boofuzz
-        session = Session(
-            target = Target(
-                # connection=UDPSocketConnection("127.0.0.1",123,send_timeout=0.2)
-                connection=TCPSocketConnection("127.0.0.1", TARGET_PORT, send_timeout=0.2)
-            ),
-            post_test_case_callbacks = [post_test_case_callback],
-            web_port = None
-        )
     
         for i in range(0, len(msg_list)):
             s_initialize(name = f"Round-{index+1}-Orig:id{i}" )
