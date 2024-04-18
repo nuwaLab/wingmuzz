@@ -1,21 +1,19 @@
-import socket
-import threading
 import os
 import sys
 import getopt
+import socket
+import threading
 
 last_command = ""
 files_run = []
 
-#define proxy bind IP and port
-bind_ip = ''
-bind_port = 9999
-
-#define remote computer to fuzz
+''' ========= CONFIGURATION ========= '''
+# define spike proxy bind ip
+proxy_ip = '127.0.0.1'
+proxy_port = 12345
+# define remote target to fuzz
 target_ip= ''
 target_port = 9999
-
-
 #Spike Paramaters
 #exclude = ['TRUN','STATS','TIME','SRUN','HELP','EXIT','GDOG']
 exclude = []
@@ -124,19 +122,16 @@ def fuzz_application(server):
         handle_client_connection(client_sock)
 
 def usage():
-    print("Spike Fuzzing Proxy \
-     Usage: spikeproxy.py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \
-     -l --local               -Set up local proxy on this ip:port \
-     -t --target              -Target computer:port to fuzz \
-     -d --dir                 -Directory where spike files reside \
-     -e --exclude             -File names to exclude - common seperated \
-     -h --help                -Help \
-     Examples: \
-     spikeproxy.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \
+    print("Spike Fuzzing Proxy \n\
+     Usage: spikeproxy.py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
+     -l --local               -Set up local proxy on this ip:port \n\
+     -t --target              -Target computer:port to fuzz \n\
+     -d --dir                 -Directory where spike files reside \n\
+     -e --exclude             -File names to exclude - common seperated \n\
+     -h --help                -Help \nExamples: \n\
+     spikeproxy.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \n\
      spikeproxy.py -h")
     sys.exit(0)
-
-
 
 
 if not len (sys.argv[1:]):
