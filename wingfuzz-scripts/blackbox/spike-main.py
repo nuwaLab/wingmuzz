@@ -5,6 +5,7 @@ import getopt
 import socket
 import threading
 from utils import *
+from spiutils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
@@ -138,18 +139,6 @@ def fuzz_application_duration(server, duration):
         else:
             record_path = './record.txt'
             SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
-
-
-def usage():
-    print("Spike Fuzzing Proxy \nUsage: spike-proxy.py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
-    -l --local               -Set up local proxy on this ip:port \n\
-    -t --target              -Target computer:port to fuzz \n\
-    -d --dir                 -Directory where spike files reside \n\
-    -e --exclude             -File names to exclude - common seperated \n\
-    -h --help                -Help \nExamples: \n\
-    spikeproxy.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \n\
-    spikeproxy.py -h")
-    sys.exit(0)
 
 
 def spike_cmd_boot():
