@@ -3,7 +3,7 @@ WingFuzz is a collaborative fuzzing mechanism of blackbox lead flight and greybo
 
 Lead flight uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
 
-Wingmate uses AflNet to enchance the efficiency and effectiveness of blackbox fuzzing.
+Wingmate uses Aflnet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
 ## Pre-requisite
 WingFuzz and our experiments are tested under the env of Ubuntu 20.04, either VMWare or Parallel Desktop.
