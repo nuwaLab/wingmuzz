@@ -5,7 +5,7 @@ Lead flight uses Boofuzz (the successor of Sulley), Spike and Peach to perform b
 Wingmate uses AFLNet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
 ## Pre-requisite
-WingFuzz and our experiments are tested under the env of Ubuntu 20.04, either VMWare or Parallel Desktop.
+WingFuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMWare or Parallel Desktop.
 
 Boofuzz can be installed into your Python Env with the following command.
 ```bash
