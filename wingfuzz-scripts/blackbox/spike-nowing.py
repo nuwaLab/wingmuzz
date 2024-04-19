@@ -60,7 +60,7 @@ def sendtoserver(request):
             client.send(request)
         else:
             print("[INFO] Server response changed")
-            print(f"\tLast Command Fuzzed: {last_command}")
+            print(f"[INFO] Last Command Fuzzed: {last_command}")
             print("\tFiles Run: ")
             print("\t" + ','.join(files_run))
 
@@ -69,12 +69,12 @@ def sendtoserver(request):
     #This could indicate the server crashed
     except socket.timeout:
         print("")
-        print("[INFO] Connection to Server Timed Out")
+        print("[ERROR] Connection to Server Timed Out")
         if last_command == "":
-            print("\tUnable to connect to the target computer.")
+            print("[ERROR] Unable to connect to the target computer.")
             sys.exit(0)
         else:
-            print("\tLast Command Fuzzed:")
+            print("[INFO] Last Command Fuzzed:")
             print("\t" + last_command)
             print("")
             print("\tFiles Run:")
