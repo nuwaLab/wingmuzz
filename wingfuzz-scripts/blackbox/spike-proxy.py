@@ -3,14 +3,19 @@ import sys
 import getopt
 import socket
 import threading
+from utils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
 PROXY_IP = '127.0.0.1'
 PROXY_PORT = 12345
-# define target to fuzz in the local/remote machine
-TARGET_IP = '127.0.0.1'
+TARGET_IP = '127.0.0.1' # local/remote machine
 TARGET_PORT = 21
+# ===== Target Params =====
+PROTOCOL = "ftp"
+WORK_DIR = "~/wingfuzz"
+BINARY = "proftpd_v1.3.8"
+SUM_BITMAP = b''
 # ===== Spike Params =====
 #exclude = ['TRUN','STATS','TIME','SRUN','HELP','EXIT','GDOG']
 EXCLUDE = []
@@ -119,16 +124,26 @@ def fuzz_application(server):
         client_sock, _ = server.accept()
         handle_client_connection(client_sock)
 
+        global SUM_BITMAP
+    
+        bitmap = get_bitmap(shmid)
+        clean_shm(shmid)
+    
+        if SUM_BITMAP == b'':
+            SUM_BITMAP = bitmap
+        else:
+            record_path = './record.txt'
+            SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
+
 def usage():
-    print("Spike Fuzzing Proxy \n\
-     Usage: spikeproxy.py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
-     -l --local               -Set up local proxy on this ip:port \n\
-     -t --target              -Target computer:port to fuzz \n\
-     -d --dir                 -Directory where spike files reside \n\
-     -e --exclude             -File names to exclude - common seperated \n\
-     -h --help                -Help \nExamples: \n\
-     spikeproxy.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \n\
-     spikeproxy.py -h")
+    print("Spike Fuzzing Proxy \nUsage: spike-proxy.py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
+    -l --local               -Set up local proxy on this ip:port \n\
+    -t --target              -Target computer:port to fuzz \n\
+    -d --dir                 -Directory where spike files reside \n\
+    -e --exclude             -File names to exclude - common seperated \n\
+    -h --help                -Help \nExamples: \n\
+    spikeproxy.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \n\
+    spikeproxy.py -h")
     sys.exit(0)
 
 
@@ -177,12 +192,19 @@ if __name__ == "__main__":
 
     print("")
     print("[INFO] Starting Spike Proxy")
+    
+    # Create SHM to record Coverage
+    shmid = open_shm()
+    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
+    p = execute(program_boot)
+    time.sleep(1)
 
-    #Create Proxy Binding
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((PROXY_IP, PROXY_PORT))
-    server.listen(5)
+    # Create Proxy Binding
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+        server.bind((PROXY_IP, PROXY_PORT))
+        server.listen(5)
+        print(f'[INFO] __AFL_SHM_ID={str(shmid)}')
+        print(f'[INFO] Spike Proxy Listening on {PROXY_IP}:{PROXY_PORT}')
 
-    print(f'[INFO] Spike Proxy Listening on {PROXY_IP}:{PROXY_PORT}')
+        fuzz_application(server)
 
-    fuzz_application(server)
