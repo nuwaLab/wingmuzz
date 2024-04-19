@@ -14,13 +14,11 @@ pip3 install boofuzz
 ```
 
 Spike is a C based fuzzer creation kit, but it also includes a simple scripting capability.
-
 There are a few command line tools which can act as interpreters to simple text files (.spk files) containing Spike primitives.
 ```bash
 git clone https://github.com/SofianeHamlaoui/Spike-Fuzzer.git
 ```
 Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingFuzz.
-
 It is worth mention that we should copy the file named `libdlrpc.so` under `/Spike-Fuzzer/usr/lib/` to `/usr/local/lib/` or `/lib/`.
 
 ## Boofuzz
