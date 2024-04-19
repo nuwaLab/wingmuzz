@@ -147,7 +147,7 @@ def usage():
     sys.exit(0)
 
 
-if __name__ == "__main__":
+def spike_cmd_boot():
     if not len (sys.argv[1:]):
         usage()
 
@@ -190,8 +190,13 @@ if __name__ == "__main__":
             else:
                 EXCLUDE.append(a)
 
-    print("")
-    print("[INFO] Starting Spike Proxy")
+    print("\n[INFO] Starting Spike Proxy")
+
+
+# Spike-nowing, just blackbox fuzzing
+if __name__ == "__main__":
+    
+    spike_cmd_boot()
     
     # Create SHM to record Coverage
     shmid = open_shm()
