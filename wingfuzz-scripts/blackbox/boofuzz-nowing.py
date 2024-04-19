@@ -9,7 +9,7 @@ from bitarray import bitarray
 from boofuzz import *
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
-''' =============== CONFIGURATION =============== '''
+''' ---------------< CONFIGURATION >--------------- '''
 WORK_DIR = "~/wingfuzz"
 PROTOCOL = "dns"
 DURATION_TIME = 3600     # seconds
@@ -18,7 +18,7 @@ BINARY = "dnsmasq_2.71"
 IN_DIR = f"../../{PROTOCOL}/init_in/"
 RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
-
+''' ----------------------------------------------- '''
 
 # Fuzz in specific duration time
 def test_for_duration(session, duration):
@@ -39,17 +39,6 @@ def post_test_case_callback(target, fuzz_data_logger, session, sock, *args, **kw
         formatted_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
         record_file = os.path.join(RECORD_PATH,f"{formatted_time}.txt")
         sum_bitmap = update_sum_bitmap(bitmap, sum_bitmap, record_file)
-
-# Record message from grey-box
-def record_msg(b_msg):
-    now = datetime.now()
-    formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
-    print(f"Black_Box_Fuzzing Get MSG - {formatted_time}")
-    print(f"MSG - {b_msg}")
-    file = os.path.join(IN_DIR, f"Grey-Box-{formatted_time}.raw")
-    with open(file, 'wb') as f:
-        f.write(b_msg)
-        time.sleep(2)  # need some time to write
 
 
 # Begin to roll

@@ -9,7 +9,7 @@ from bitarray import bitarray
 from boofuzz import *
 
 # Now we are at ~/wingfuzz/wingfuzz-scripts/blackbox/
-''' =============== CONFIGURATION =============== '''
+''' ---------------< CONFIGURATION >--------------- '''
 WORK_DIR = "~/wingfuzz"
 PROTOCOL = "ssh"
 DURATION_TIME = 3000    # Seconds
@@ -18,7 +18,7 @@ BINARY = "openssh_v8.2p1"
 IN_DIR = f"../../{PROTOCOL}/in/"
 RECORD_PATH = f"../../{PROTOCOL}/out/record/"
 sum_bitmap = b''
-
+''' ----------------------------------------------- '''
 
 # Fuzz in specific duration time
 def test_for_duration(session, duration):
