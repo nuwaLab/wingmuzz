@@ -1,5 +1,6 @@
 import sys
 import socket
+from utils import *
 
 last_command = ""
 
@@ -46,6 +47,16 @@ def sendtoserver(request, target_ip, target_port, files_run):
     #set last command global
     last_command = request
     client.close()
+
+
+def read_spike_indir(in_dir):
+    in_file = find_files(in_dir, '.raw')
+    msg_list = []
+    for file in in_file:
+        with open(file, 'rb') as f:
+            content = f.read1()
+            msg_list.append(content)
+    return msg_list
 
 
 def usage():

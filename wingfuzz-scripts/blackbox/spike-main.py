@@ -9,22 +9,22 @@ from spiutils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '127.0.0.1'
+PROXY_IP = '0.0.0.0'
 PROXY_PORT = 12345
-TARGET_IP = '127.0.0.1' # local/remote machine
+TARGET_IP = '0.0.0.0' # local/remote machine
 TARGET_PORT = 21
 # ===== Target Params =====
 PROTOCOL = "ftp"
 WORK_DIR = "~/wingfuzz"
 BINARY = "proftpd_v1.3.8"
 SUM_BITMAP = b''
-IN_DIR = f"../../{PROTOCOL}/in/"
+IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 # ===== Spike Params =====
 #exclude = ['TRUN','STATS','TIME','SRUN','HELP','EXIT','GDOG']
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '~/wingfuzz/ftp/conf'
+SPKS_DIR = '/home/dez/wingfuzz/ftp/conf'
 DURATION_TIME = 3600
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
@@ -32,7 +32,7 @@ BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 '''----------------------------------------------------------- '''
 
 files_run = []
-msg_list = read_in_dir(IN_DIR)
+msg_list = read_spike_indir(IN_DIR)
 
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
@@ -44,9 +44,19 @@ def handle_client_connection(client_socket, target_ip, target_port, files_run):
     client_socket.close()
 
 def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
+    global SUM_BITMAP
+
     for i in range(0, len(msg_list)):
-        request = msg_list[i].encode('utf-8')
+        request = msg_list[i]
         sendtoserver(request, target_ip, target_port, files_run)
+
+        bitmap = get_bitmap(shmid)
+        clean_shm(shmid)
+        if SUM_BITMAP == b'':
+            SUM_BITMAP = bitmap
+        else:
+            record_path = './record.txt'
+            SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
 
 def run_spike():
     #if there are no excluded spikes, grab all spk files in the provided spks_dir and run spike
@@ -79,20 +89,12 @@ def fuzz_application_duration(server, duration):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((TARGET_IP, TARGET_PORT))
 
+    if len(msg_list) != 0:
+        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
+
     #call method to run spike which will send the fuzz data to our proxy server
     client_handler = threading.Thread(target=run_spike, args=())
     client_handler.start()
-
-    if len(msg_list) != 0:
-        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
-        
-        bitmap = get_bitmap(shmid)
-        clean_shm(shmid)
-        if SUM_BITMAP == b'':
-            SUM_BITMAP = bitmap
-        else:
-            record_path = './record.txt'
-            SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
 
     while time.time() - start < duration:
         #Accept the connection from localhost to proxy and send the socket to handle_client_connections
@@ -220,7 +222,7 @@ if __name__ == "__main__":
                         #stop_thread = True  
                         break
             
-            msg_list = read_in_dir(IN_DIR)
+            msg_list = read_spike_indir(IN_DIR)
     
     p = execute(program_close)
     close_shm(shmid)
