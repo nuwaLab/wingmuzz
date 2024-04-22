@@ -26,6 +26,7 @@ SPKS_DIR = '/home/dez/wingfuzz/ftp/conf'
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
 BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
+# BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_udp'
 '''----------------------------------------------------------- '''
 
 files_run = []
