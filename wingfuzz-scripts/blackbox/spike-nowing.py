@@ -22,16 +22,13 @@ SUM_BITMAP = b''
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '~/wingfuzz/ftp/conf'
+SPKS_DIR = '/home/dez/wingfuzz/ftp/conf'
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
 BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 '''----------------------------------------------------------- '''
 
-
-last_command = ""
 files_run = []
-
 
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
@@ -79,7 +76,7 @@ def fuzz_application(server):
     while True:
         #Accept the connection from localhost to proxy and send the socket to handle_client_connections
         client_sock, _ = server.accept()
-        handle_client_connection(client_sock)
+        handle_client_connection(client_sock, TARGET_IP, TARGET_PORT, files_run)
 
         global SUM_BITMAP
     

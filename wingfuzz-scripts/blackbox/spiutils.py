@@ -1,6 +1,8 @@
 import sys
 import socket
 
+last_command = ""
+
 def sendtoserver(request, target_ip, target_port, files_run):
     global last_command
 
