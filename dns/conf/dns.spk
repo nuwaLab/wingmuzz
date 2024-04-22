@@ -1,0 +1,35 @@
+s_string("Transaction ID ");
+s_string_variable("1234");
+s_string("\r\n");
+
+s_string("Flags ");
+s_string_variable("8400");
+s_string("\r\n");
+
+s_string("Questions ");
+s_string_variable("1");
+s_string("\r\n");
+
+s_string("Answer RRs ");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("Authority RRs ");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("Additional RRs ");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("Queries ");
+s_string_variable("www.example.com");
+s_string("\r\n");
+
+s_string("Query Type ");
+s_string_variable("1");
+s_string("\r\n");
+
+s_string("Query Class ");
+s_string_variable("1");
+s_string("\r\n");
