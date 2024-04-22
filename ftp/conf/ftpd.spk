@@ -1,8 +1,8 @@
 s_string("HOST ");
-s_string_variable("127.0.0.1");
+s_string("127.0.0.1");
 s_string("\r\n");
 
-s_string_variable("USER");
+s_string("USER");
 s_string(" ");
 s_string_variable("bob");
 s_string("\r\n");
