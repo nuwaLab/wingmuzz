@@ -190,7 +190,6 @@ if __name__ == "__main__":
             # Prevent OOM
             gc.collect()
 
-            # TODO: need initial specific seeds
             fuzz_application_duration(server, DURATION_TIME)
 
             conn, addr = server.accept()
