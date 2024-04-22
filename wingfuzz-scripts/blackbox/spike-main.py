@@ -31,10 +31,7 @@ DURATION_TIME = 3600
 BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 '''----------------------------------------------------------- '''
 
-
-last_command = ""
 files_run = []
-
 
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
