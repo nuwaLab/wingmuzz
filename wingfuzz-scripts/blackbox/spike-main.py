@@ -32,6 +32,7 @@ BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 '''----------------------------------------------------------- '''
 
 files_run = []
+msg_list = read_in_dir(IN_DIR)
 
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
@@ -42,6 +43,10 @@ def handle_client_connection(client_socket, target_ip, target_port, files_run):
     sendtoserver(request, target_ip, target_port, files_run)
     client_socket.close()
 
+def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
+    for i in range(0, len(msg_list)):
+        request = msg_list[i].encode('utf-8')
+        sendtoserver(request, target_ip, target_port, files_run)
 
 def run_spike():
     #if there are no excluded spikes, grab all spk files in the provided spks_dir and run spike
@@ -68,6 +73,7 @@ def run_spike():
 
 
 def fuzz_application_duration(server, duration):
+    global SUM_BITMAP
     start = time.time()
     #create client socket connection
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -77,12 +83,21 @@ def fuzz_application_duration(server, duration):
     client_handler = threading.Thread(target=run_spike, args=())
     client_handler.start()
 
+    if len(msg_list) != 0:
+        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
+        
+        bitmap = get_bitmap(shmid)
+        clean_shm(shmid)
+        if SUM_BITMAP == b'':
+            SUM_BITMAP = bitmap
+        else:
+            record_path = './record.txt'
+            SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
+
     while time.time() - start < duration:
         #Accept the connection from localhost to proxy and send the socket to handle_client_connections
         client_sock, _ = server.accept()
         handle_client_connection(client_sock, TARGET_IP, TARGET_PORT, files_run)
-
-        global SUM_BITMAP
     
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
@@ -204,6 +219,8 @@ if __name__ == "__main__":
                         print(f"Black_Box_Fuzzing Quit - {formatted_time}")
                         #stop_thread = True  
                         break
+            
+            msg_list = read_in_dir(IN_DIR)
     
     p = execute(program_close)
     close_shm(shmid)

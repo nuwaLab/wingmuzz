@@ -65,6 +65,7 @@ def run_spike():
 
 
 def fuzz_application(server):
+    global SUM_BITMAP
     #create client socket connection
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((TARGET_IP, TARGET_PORT))
@@ -72,13 +73,11 @@ def fuzz_application(server):
     #call method to run spike which will send the fuzz data to our proxy server
     client_handler = threading.Thread(target=run_spike, args=())
     client_handler.start()
-
+    
     while True:
         #Accept the connection from localhost to proxy and send the socket to handle_client_connections
         client_sock, _ = server.accept()
         handle_client_connection(client_sock, TARGET_IP, TARGET_PORT, files_run)
-
-        global SUM_BITMAP
     
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
