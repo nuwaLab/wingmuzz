@@ -1,5 +1,6 @@
 import os
 import sys
+import errno
 import getopt
 import socket
 import threading
@@ -8,9 +9,9 @@ from spiutils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '127.0.0.1'
+PROXY_IP = '0.0.0.0'
 PROXY_PORT = 12345
-TARGET_IP = '127.0.0.1' # local/remote machine
+TARGET_IP = '0.0.0.0' # local/remote machine
 TARGET_PORT = 21
 # ===== Target Params =====
 PROTOCOL = "ftp"
@@ -26,6 +27,7 @@ SPKS_DIR = '/home/dez/wingfuzz/ftp/conf'
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
 BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
+# BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_udp'
 '''----------------------------------------------------------- '''
 
 files_run = []
@@ -33,11 +35,18 @@ files_run = []
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
     request = client_socket.recv(8192)
-    client_socket.send("ACK".encode('utf-8'))
+    try:
+        client_socket.send("ACK".encode('utf-8'))
+    except IOError as e:
+        if e.errno == errno.EPIPE:
+            print("[ERROR] Broken pipe, need check.")
+            client_socket.close()
+            return
 
     #send spike payload to server
     sendtoserver(request, target_ip, target_port, files_run)
     client_socket.close()
+
 
 
 def run_spike():

@@ -1,6 +1,7 @@
 import os
 import gc
 import sys
+import errno
 import getopt
 import socket
 import threading
@@ -29,6 +30,7 @@ DURATION_TIME = 3600
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
 BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
+# BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_udp'
 '''----------------------------------------------------------- '''
 
 files_run = []
@@ -37,7 +39,13 @@ msg_list = read_spike_indir(IN_DIR)
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
     request = client_socket.recv(8192)
-    client_socket.send("ACK".encode('utf-8'))
+    try:
+        client_socket.send("ACK".encode('utf-8'))
+    except IOError as e:
+        if e.errno == errno.EPIPE:
+            print("[ERROR] Broken pipe, need check.")
+            client_socket.close()
+            return
 
     #send spike payload to server
     sendtoserver(request, target_ip, target_port, files_run)
