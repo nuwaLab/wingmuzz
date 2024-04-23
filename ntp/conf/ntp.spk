@@ -1,0 +1,55 @@
+s_string("NTP Request ");
+s_string("NTP_QUERY");
+s_string("\r\n");
+
+s_string("NTP Leap Indicator ");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("NTP Version Number ");
+s_string_variable("4");
+s_string("\r\n");
+
+s_string("Mode ");
+s_string_variable("3");
+s_string("\r\n");
+
+s_string("Stratum ");
+s_string_variable("1");
+s_string("\r\n");
+
+s_string("Poll Interval ");
+s_string_variable("10");
+s_string("\r\n");
+
+s_string("Precision ");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("Root Delay ");
+s_string_variable("0.000000");
+s_string("\r\n");
+
+s_string("Root Dispersion ");
+s_string_variable("0.000000");
+s_string("\r\n");
+
+s_string("Reference Identifier ");
+s_string_variable("127.0.0.1");
+s_string("\r\n");
+
+s_string("Reference Timestamp ");
+s_string_variable("00000000000000000000000000000000");
+s_string("\r\n");
+
+s_string("Origin Timestamp ");
+s_string_variable("00000000000000000000000000000000");
+s_string("\r\n");
+
+s_string("Receive Timestamp ");
+s_string_variable("00000000000000000000000000000000");
+s_string("\r\n");
+
+s_string("Transmit Timestamp ");
+s_string_variable("00000000000000000000000000000000");
+s_string("\r\n");
