@@ -1,8 +1,21 @@
-s_string("2.0 00");
+s_string("SSH-2.0-OpenSSH_");
+s_string_variable("8.3.0");
+s_string("\r\n");
+
+s_string("Packet Length ");
+s_string_variable("1024");
+s_string("\r\n");
+
+s_string("Padding Length ");
+s_string_variable("6");
 s_string("\r\n");
 
 s_string("KeyExchangeAlgorithm ");
 s_string_variable("diffie-hellman-group-exchange-sha256");
+s_string("\r\n");
+
+s_string("Padding String ");
+s_string_variable("8cda3b01c7b");
 s_string("\r\n");
 
 s_string("HostKeyAlgorithm ");
