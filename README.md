@@ -9,7 +9,7 @@ WingFuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMW
 
 - AFLNet
 
-We have provided a `afl-fuzz` binary of linux_x86_64 under the aflnet directory. If you use other OS_archs, you can compile on your own.
+We have provided a `afl-fuzz` binary of linux_x86_64 under the aflnet directory. If you use other OS_Archs, you can compile on your own.
 ```bash
 git clone https://github.com/aflnet/aflnet.git
 ```
