@@ -1,0 +1,54 @@
+s_string("2.0 00");
+s_string("\r\n");
+
+s_string("KeyExchangeAlgorithm ");
+s_string_variable("diffie-hellman-group-exchange-sha256");
+s_string("\r\n");
+
+s_string("HostKeyAlgorithm ");
+s_string_variable("dsa");
+s_string("\r\n");
+
+s_string("EncryptionAlgorithm ");
+s_string_variable("aes128-ctr");
+s_string("\r\n");
+
+s_string("MACAlgorithm ");
+s_string_variable("hmac-sha2-256");
+s_string("\r\n");
+
+s_string("CompressionAlgorithm ");
+s_string_variable("none");
+s_string("\r\n");
+
+s_string("LANGUAGE ");
+s_string_variable("en-US");
+s_string("\r\n");
+
+s_string("ClientIdentifier ");
+s_string_variable("SPIKE Fuzzer");
+s_string("\r\n");
+
+s_string("SessionID ");
+s_string_variable("1234567890abcdef");
+s_string("\r\n");
+
+s_string("Username ");
+s_string_variable("bob");
+s_string("\r\n");
+
+s_string("ServerName ");
+s_string_variable("127.0.0.1");
+s_string("\r\n");
+
+s_string("KeyExchangeData ");
+s_string_variable("...");
+s_string("\r\n");
+
+s_string("HostKeyData ");
+s_string_variable("...");
+s_string("\r\n");
+
+s_string("SignatureData ");
+s_string_variable("...");
+s_string("\r\n");
