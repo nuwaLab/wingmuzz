@@ -23,8 +23,7 @@ pip3 install boofuzz
 
 - Spike
 
-Spike is a C-based fuzzer creation kit, but it also includes a simple scripting capability.
-There are a few command line tools which can act as interpreters to simple text files (.spk files) containing Spike primitives.
+Spike is a C-based fuzzer creation kit, but it also includes a simple scripting capability. There are a few command line tools which can act as interpreters to simple text files (.spk files) containing Spike primitives.
 ```bash
 git clone https://github.com/SofianeHamlaoui/Spike-Fuzzer.git
 ```
@@ -33,11 +32,11 @@ It is worth mention that we should copy the file named `libdlrpc.so` under `/Spi
 
 - Peach
 
-We utilize MozPeach (a fork of Peach v2.7) as it's easier to integrate. MozPeach is committed to deliver Peach as an open source product with Python compatibility and new features.
+Peach is an open source fuzzing framework and has been developed for 20 years. There are three main versions. Peach1 and Peach2 are written in Python, released in 2004 and 2007 respectively. Peach3 is rewritten in C#, released in 2013.
 ```bash
-git clone https://github.com/MozillaSecurity/peach.git
+git clone https://github.com/TideSec/Peach_Fuzzing.git
 ```
-It may work on Python3, but we have not tested.
+We utilize Peach v3.1.124, which is under `Peach_Fuzzing/peach`. Peach_Fuzzing repo provides some software sources of different archs, and we choose to unzip `peach-3.1.124-linux-x86_64-release.zip`.
 
 ## Boofuzz
 
