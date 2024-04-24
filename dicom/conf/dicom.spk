@@ -1,0 +1,39 @@
+s_string("PDU Type ");
+s_string_variable("0x04");
+s_string("\r\n");
+
+s_string("Version ");
+s_string_variable("00 01"");
+s_string("\r\n");
+
+s_string("PDU Length ");
+s_string_variable("78");
+s_string("\r\n");
+
+s_string("PDV, N-CREATE-RQ ID=");
+s_string_variable("39000");
+s_string("\r\n");
+
+s_string("PDV Length ");
+s_string_variable("74");
+s_string("\r\n");
+
+s_string("Context ");
+s_string_variable("0x8f");
+s_string("\r\n");
+
+s_string("Flags ");
+s_string_variable("0x03");
+s_string("\r\n");
+
+s_string_variable("0A 00 00 00 43 61 6C 6C 65 64 41 45 00");
+
+s_string_variable("0A 00 00 00 43 61 6C 6C 69 6E 67 41 45 00");
+
+s_string_variable("10 00 00 00 10 00 00 00 31 2E 32 2E 38 34 30 2E 31 30 30 30 38 2E 33 2E 31 2E 31 00");
+
+s_string_variable("2E 00 00 00 20 00 00 00 01 00 00 00 10 00 00 00 31 2E 32 2E 38 34 30 2E 31 31 2E 32 2E 38 34 30 2E 31 30 30 30 38 2E 35 2E 31 2E 34 2E 31 2E 32 00 20 00 00 00 31 2E 32 2E 38 34 30 2E 31 30 30 30 38 2E 31 2E 32 00");
+
+s_string_variable("50 00 00 00 50 00 00 00 ...");
+
+s_string_variable("00 00 00 00");
