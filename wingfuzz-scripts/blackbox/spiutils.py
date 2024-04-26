@@ -48,6 +48,21 @@ def sendtoserver(request, target_ip, target_port, files_run):
     client.close()
 
 
+def heartbeat(target_ip, target_port):
+    #create connection to target fuzz server
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.settimeout(4)
+
+    #try connecting to client and recieving response
+    try:
+        client.connect((target_ip, target_port))
+    except socket.timeout:
+        print("[ERROR] Connection to Server Timed Out")
+        sys.exit(0)
+    
+    client.close()
+
+
 def read_spike_indir(in_dir):
     in_file = find_files(in_dir, '.raw')
     msg_list = []
