@@ -19,8 +19,8 @@ EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
 SPKS_DIR = '/home/dez/wingfuzz/sip/conf'
-TCP_OR_UDP = 1  # TCP = 1; UDP = 0; Configure it
-UDP_TOTAL_SEND = 100000
+TCP_OR_UDP = 0  # TCP = 1; UDP = 0; Configure it
+UDP_TOTAL_SEND = 100000000    # UDP send number of cases
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
 # BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
@@ -111,7 +111,9 @@ if __name__ == "__main__":
     p = execute(program_boot)
     time.sleep(1)
 
-    client_handler = threading.Thread(target=run_spike, args=())
+    print(f'[INFO] __AFL_SHM_ID={str(shmid)}')
+
+    client_handler = threading.Thread(target=run_spike(), args=())
     client_handler.start()
 
     # heart_beat = threading.Thread(target=heartbeat(TARGET_IP, TARGET_PORT), args=())
