@@ -1,0 +1,14 @@
+s_string("DESCRIBE rtsp://127.0.0.1/test RTSP/1.0\r\n");
+
+s_string("CSeq: ");
+s_string_variable("1");
+s_string("\r\n");
+s_string("User-Agent: ");
+s_string_variable("SPIKE Fuzzer");
+s_string("\r\n");
+s_string("Accept: application/sdp\r\n");
+
+s_string("Content-Type: application/sdp\r\n");
+s_string("Content-Length: ");
+s_string_variable("0");
+s_string("\r\n");
