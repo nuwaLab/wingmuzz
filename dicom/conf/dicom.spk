@@ -3,7 +3,7 @@ s_string_variable("0x04");
 s_string("\r\n");
 
 s_string("Version ");
-s_string_variable("00 01"");
+s_string_variable("00 01");
 s_string("\r\n");
 
 s_string("PDU Length ");
