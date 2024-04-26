@@ -6,25 +6,25 @@ from spiutils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '0.0.0.0'
-PROXY_PORT = 12345
-TARGET_IP = '0.0.0.0' # local/remote machine
-TARGET_PORT = 4200
+TARGET_IP = '127.0.0.1' # local/remote machine
+TARGET_PORT = 5060
 # ===== Target Params =====
-PROTOCOL = "dicom"
+PROTOCOL = "sip"
 WORK_DIR = "~/wingfuzz"
-BINARY = "storescp_v3.6.7"
+BINARY = "opensips_3.1.6"
 SUM_BITMAP = b''
 # ===== Spike Params =====
 #exclude = ['TRUN','STATS','TIME','SRUN','HELP','EXIT','GDOG']
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '/home/dez/wingfuzz/dicom/conf'
+SPKS_DIR = '/home/dez/wingfuzz/sip/conf'
+TCP_OR_UDP = 1  # TCP = 1; UDP = 0; Configure it
+UDP_TOTAL_SEND = 100000
 # Running spike scripts using the TCP/UDP script interpreter 
 # spike-fuzzer-generic-send_tcp / spike-fuzzer-generic-send_udp
-BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
-# BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_udp'
+# BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
+BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_udp'
 '''----------------------------------------------------------- '''
 
 files_run = []
@@ -39,7 +39,10 @@ def run_spike():
                 newfile = SPKS_DIR + '/' + file
                 print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
                 files_run.append(name[0])
-                os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                if TCP_OR_UDP == 1:
+                    os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                else: 
+                    os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} {UDP_TOTAL_SEND} >log 2>&1')
 
     # if there are exclusions, grab all spk files that dont contain the exclusion and run spike
     else:
@@ -50,11 +53,14 @@ def run_spike():
                 newfile = SPKS_DIR + '/' + file
                 print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
                 files_run.append(name[0])
-                os.system(f'{BIN} {TARGET_IP} {TARGET_IP} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                if TCP_OR_UDP == 1:
+                    os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                else: 
+                    os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} {UDP_TOTAL_SEND} >log 2>&1')
 
 
 def spike_cmd_boot():
-    global PROXY_IP, PROXY_PORT, TARGET_IP, TARGET_PORT, SPKS_DIR
+    global TARGET_IP, TARGET_PORT, SPKS_DIR
     
     if not len (sys.argv[1:]):
         usage()
@@ -68,14 +74,6 @@ def spike_cmd_boot():
     for o,a in opts:
         if o in ("-h","--help"):
             usage()
-        elif o in ("-l","--local"):
-            try:
-                h = a.split(':')
-                PROXY_IP = h[0]
-                PROXY_PORT = int(h[1])
-            except:
-                usage()
-                sys.exit(0)
         elif o in ("-t","--local"):
             try:
                 d = a.split(':')
@@ -100,6 +98,7 @@ def spike_cmd_boot():
 
     print("\n[INFO] Starting Spike-Nowing")
 
+
 # Spike-nowing, just blackbox fuzzing
 if __name__ == "__main__":
     
@@ -108,15 +107,15 @@ if __name__ == "__main__":
     # Create SHM to record Coverage
     shmid = open_shm()
     program_close = f"sudo pkill -9 -f /repo/{BINARY}"
-    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -ll fatal 4200 &"
+    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
     p = execute(program_boot)
     time.sleep(1)
 
     client_handler = threading.Thread(target=run_spike, args=())
     client_handler.start()
 
-    heart_beat = threading.Thread(target=heartbeat(TARGET_IP, TARGET_PORT), args=())
-    heart_beat.start()
+    # heart_beat = threading.Thread(target=heartbeat(TARGET_IP, TARGET_PORT), args=())
+    # heart_beat.start()
 
     try:
         while True:
