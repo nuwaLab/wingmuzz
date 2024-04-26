@@ -31,7 +31,6 @@ def sendtoserver(request, target_ip, target_port, files_run):
     #If a timeout occurs while connecting (4 seconds), print error and show last command fuzzed
     #This could indicate the server crashed
     except socket.timeout:
-        print("")
         print("[ERROR] Connection to Server Timed Out")
         if last_command == "":
             print("[ERROR] Unable to connect to the target computer.")
