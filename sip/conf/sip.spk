@@ -3,12 +3,18 @@ s_string_variable("bob");
 s_string("@127.0.0.1 SIP/2.0);
 s_string("\r\n");
 
-s_string("Via: SIP/2.0/UDP 127.0.0.1:5060;rport;branch=z9hG4bK74b7\r\n");
-s_string("From:sip:alice@127.0.0.1>;");
-s_string_variable("tag=1928301774");
+s_string("Via: SIP/2.0/UDP 127.0.0.1:5060;rport;branch=")
+s_string_variable("z9hG4bK74b7");
 s_string("\r\n");
 
-s_string("To: sip:bob@127.0.0.1\r\n");
+s_string("From:sip:");
+s_string_variable("alice");
+s_string("@127.0.0.1>;tag=");
+s_string_variable("1928301774");
+s_string("\r\n");
+
+s_string("To: sip:bob@127.0.0.1");
+s_string("\r\n");
 s_string("Call-ID: ");
 s_string_variable("callid123456789");
 s_string("\r\n");
@@ -20,25 +26,64 @@ s_string("\r\n");
 
 s_string("Contact: sip:");
 s_string_variable("alice");
-s_string("@127.0.0.1:5060\r\n");
+s_string("@127.0.0.1:5060");
+s_string("\r\n");
 
-s_string("Max-Forwards: ")
+s_string("Max-Forwards: ");
 s_string_variable("70");
 s_string("\r\n");
 
-s_string("User-Agent: SPIKE Fuzzer\r\n");
-s_string("Content-Type: application/sdp\r\n");
+s_string("User-Agent: ");
+s_string_variable("SPIKE Fuzzer");
+s_string("\r\n");
+
+s_string("Content-Type: ");
+s_string_variable("application/sdp");
+s_string("\r\n");
+
 s_string("Content-Length: ");
 s_string_variable("0");
 s_string("\r\n");
 
-s_string("v=0\r\n");
-s_string("o=alice 2890844526 2890844526 IN IP4 127.0.0.1\r\n");
-s_string("s=-\r\n");
+s_string("v=");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("o=");
+s_string_variable("alice");
+s_string(" ");
+s_string_variable("2890844526");
+s_string(" ");
+s_string_variable("2890844526");
+s_string(" IN IPv4 127.0.0.1");
+s_string("\r\n");
+
+s_string("s=");
+s_string_variable("-");
+s_string("\r\n");
+
 s_string("c=IN IP4 127.0.0.1\r\n");
-s_string("t=0 0\r\n");
-s_string("m=audio 49170 RTP/AVP 0\r\n");
-s_string("a=rtpmap:0 PCMU/8000\r\n");
+s_string("t=");
+s_string_variable("0 0");
+s_string("\r\n");
+
+s_string("m=");
+s_string_variable("audio");
+s_string(" ");
+s_string_variable("49170");
+s_string(" ");
+s_string_variable("RTP/AVP");
+s_string_variable("0");
+s_string("\r\n");
+
+s_string("a=");
+s_string_variable("rtpmap");
+s_string(":");
+s_string_variable("0");
+s_string(" ");
+s_string_variable("PCMU");
+s_string("/");
+s_string_variable("8000");
 s_string("\r\n");
 
 s_string_variable("callid123456789");
