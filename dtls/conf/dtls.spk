@@ -1,0 +1,107 @@
+s_string("HANDSHAKE ");
+s_string("CLIENT_HELLO ");
+s_string_variable("DTLS");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("SERVER_HELLO ");
+s_string_variable("DTLS");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("CERTIFICATE ");
+s_string_variable("CERT");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("SERVER_KEY_EXCHANGE ");
+s_string_variable("ECDHE");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("CERTIFICATE_REQUEST ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("SERVER_HELLO_DONE ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("CERTIFICATE ");
+s_string_variable("CLIENT_CERT");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("CLIENT_KEY_EXCHANGE ");
+s_string_variable("ECDHE");
+s_string("\r\n");
+
+s_string("CHANGE_CIPHER_SPEC ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("FINISHED ");
+s_string("\r\n");
+
+s_string("APPLICATION ");
+s_string_variable("APPLICATION_DATA");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("CERTIFICATE_VERIFY ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("NEW_SESSION_TICKET ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("HELLO_REQUEST ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("HELLO_VERIFY_REQUEST ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("KEY_UPDATE ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("MESSAGE_HASH ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("PSK_KEY_EXCHANGE_MODES ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("SUPPORTED_VERSIONS ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("SUPPLEMENTAL_DATA ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("UNKNOWN ");
+s_string_variable("UNKNOWN_HANDSHAKE");
+s_string("\r\n");
+
+s_string("ALERT ");
+s_string("WARNING ");
+s_string_variable("CLOSE_NOTIFY");
+s_string("\r\n");
+
+s_string("ALERT ");
+s_string("FATAL ");
+s_string_variable("UNEXPECTED_MESSAGE");
+s_string("\r\n");
+
+s_string("APPLICATION ");
+s_string_variable("FRAGMENT ");
+s_string("\r\n");
+
+s_string("HANDSHAKE ");
+s_string("FRAGMENT ");
+s_string("\r\n");
