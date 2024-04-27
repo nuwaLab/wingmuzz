@@ -13,8 +13,12 @@ s_string("@127.0.0.1>;tag=");
 s_string_variable("1928301774");
 s_string("\r\n");
 
-s_string("To: sip:bob@127.0.0.1");
+s_string("To: sip:");
+s_string_variable("bob");
+s_string_variable("@");
+s_string_variable("127.0.0.1");
 s_string("\r\n");
+
 s_string("Call-ID: ");
 s_string_variable("callid123456789");
 s_string("\r\n");
