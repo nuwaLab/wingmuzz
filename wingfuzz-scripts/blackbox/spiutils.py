@@ -74,12 +74,12 @@ def read_spike_indir(in_dir):
 
 
 def usage():
-    print("Spike Fuzzing \nUsage: spike-nowing(-proxy).py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
+    print("Spike Fuzzing \n[Usage]: spike-nowing(-proxy).py -l proxy_ip:port -t target_ip:port -d spikefiles_directory -e excludes \n\
     -l --local               -Set up local proxy on this ip:port \n\
     -t --target              -Target computer:port to fuzz \n\
     -d --dir                 -Directory where spike files reside \n\
     -e --exclude             -File names to exclude - common seperated \n\
-    -h --help                -Help \nExamples: \n\
+    -h --help                -Help \n[Examples]: \n\
     spike-nowing.py -l 127.0.0.1:9999 -t 192.168.1.105:9999 -d /root/Downloads/spike -e TRUN.spk,GMON.spk \n\
     spike-nowing.py -h")
     sys.exit(0)
