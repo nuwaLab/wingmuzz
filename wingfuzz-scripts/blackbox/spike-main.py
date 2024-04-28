@@ -99,6 +99,8 @@ def run_spike():
 
 
 def cov_log_duration(duration):
+    global SUM_BITMAP
+
     start_time = time.time()
 
     if len(msg_list) != 0:
