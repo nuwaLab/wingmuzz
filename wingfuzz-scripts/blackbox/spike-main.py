@@ -10,7 +10,7 @@ from spiutils import *
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '0.0.0.0'
+PROXY_IP = '127.0.0.1'
 PROXY_PORT = 12345
 TARGET_IP = '0.0.0.0' # local/remote machine
 TARGET_PORT = 21
