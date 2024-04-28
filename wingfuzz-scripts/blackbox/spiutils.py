@@ -63,6 +63,19 @@ def heartbeat(target_ip, target_port):
     client.close()
 
 
+def greyCaseSend(bin, tcp_or_udp, raw_case, target_ip, target_port):
+    # Create a spk file
+    with open('tmp.spk', 'a') as newfile:
+        newfile.truncate(0)
+        newfile.write("s_binary(\"")
+        newfile.write(str(raw_case)[2:].strip('\'').replace('\\x', ''))
+        newfile.write("\");")
+        if tcp_or_udp == 1:
+            os.system(f'{bin} {target_ip} {target_port} {newfile} 0 0 >log 2>&1')
+        else:
+            os.system(f'{bin} {target_ip} {target_port} {newfile} 0 0 100000 >log 2>&1')
+
+
 def read_spike_indir(in_dir):
     in_file = find_files(in_dir, '.raw')
     msg_list = []

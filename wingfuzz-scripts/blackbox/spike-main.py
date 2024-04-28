@@ -13,11 +13,11 @@ from spiutils import *
 PROXY_IP = '127.0.0.1'
 PROXY_PORT = 12345
 TARGET_IP = '0.0.0.0' # local/remote machine
-TARGET_PORT = 21
+TARGET_PORT = 4200
 # ===== Target Params =====
-PROTOCOL = "ftp"
+PROTOCOL = "dicom"
 WORK_DIR = "~/wingfuzz"
-BINARY = "proftpd_v1.3.8"
+BINARY = "storescp_v3.6.7"
 SUM_BITMAP = b''
 IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 # ===== Spike Params =====
@@ -25,7 +25,7 @@ IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '/home/dez/wingfuzz/ftp/conf'
+SPKS_DIR = '/home/dez/wingfuzz/dicom/conf'
 TCP_OR_UDP = 1  # TCP = 1; UDP = 0; Configure it
 DURATION_TIME = 3600
 UDP_TOTAL_SEND = 10000000    # UDP send number of cases
@@ -38,6 +38,7 @@ BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 files_run = []
 msg_list = read_spike_indir(IN_DIR)
 
+# Backup for proxy mode
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
     #place spike payload in request string and send it to target through sendtoserver
     request = client_socket.recv(8192)
@@ -53,12 +54,13 @@ def handle_client_connection(client_socket, target_ip, target_port, files_run):
     sendtoserver(request, target_ip, target_port, files_run)
     client_socket.close()
 
-def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
+
+def handle_greybox_connection(msg_list, target_ip, target_port):
     global SUM_BITMAP
 
     for i in range(0, len(msg_list)):
         request = msg_list[i]
-        sendtoserver(request, target_ip, target_port, files_run)
+        greyCaseSend(BIN, TCP_OR_UDP, request, target_ip, target_port)
 
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
@@ -67,6 +69,7 @@ def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
         else:
             record_path = './record.txt'
             SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
+
 
 def run_spike():
     #if there are no excluded spikes, grab all spk files in the provided spks_dir and run spike
@@ -104,7 +107,7 @@ def cov_log_duration(duration):
     start_time = time.time()
 
     if len(msg_list) != 0:
-        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
+        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT)
 
     while time.time() - start_time < duration:
         bitmap = get_bitmap(shmid)
@@ -184,7 +187,7 @@ if __name__ == "__main__":
     # Create SHM to record Coverage
     shmid = open_shm()
     program_close = f"sudo pkill -9 -f /repo/{BINARY}"
-    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
+    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -ll fatal 4200 &"
     p = execute(program_boot)
     time.sleep(1)
 
