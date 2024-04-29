@@ -49,7 +49,6 @@ unzip peach-3.1.124-linux-x86_64-release.zip -d peach-3.1.124
 
 ## Peach
 Peach is a renowned fuzzing framework. *Peach Tech* that developed Peach was acquired by GitLab in 2020 to enhance its DevSecOps capability.
-
 Configuring Pit files is a vital part of Peach Fuzzing, whereas writing Pit files is a labor-intensive task. Hence, we provide a small tool to facilitate such task. The script is `wingfuzz/wingfuzz-scripts/blackbox/pdml2pit.py`.
 
 First we should get a pdml file from wireshark's pcap file.
