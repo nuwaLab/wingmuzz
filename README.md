@@ -60,5 +60,5 @@ Then, we configure `pdml2pit.py` to adjust for a specific protocol, like changin
 
 At last, run the script.
 ```bash
-python3 pdml2pit ~/pqml/file/location.pqml
+python3 pdml2pit.py ~/pqml/file/location.pqml
 ```
