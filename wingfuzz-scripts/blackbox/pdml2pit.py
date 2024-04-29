@@ -17,20 +17,20 @@ def get_block_name(f):
 
 # Here we try to identify the type of the field. If we fail we just fall back to Blob
 def transform_field(f,root,depth):
-    node=None
+    node = None
     #print field
     if len(f.get('name'))==0:
         node=etree.Element('Block')
-        node.set("name",get_block_name(f))
+        node.set("name", get_block_name(f))
         return node
 
     try:
         if int(f.get("value"),16)==int(f.get("show")):
             node=etree.Element('Number')
-            node.set("size",len(f.get("value"))*4)
-            node.set("value",f.get("show"))
-            node.set("endian","big")
-            node.set("name",get_field_name(f))
+            node.set("size", len(f.get("value"))*4)
+            node.set("value", f.get("show"))
+            node.set("endian", "big")
+            node.set("name", get_field_name(f))
             return node
     except:
         pass
@@ -62,11 +62,11 @@ def transform_field(f,root,depth):
             endian="little"
         if parsed:
             node=etree.Element('Number')
-            node.set("size",str(len(f.get("value"))*4))
-            node.set("value",f.get("value"))
-            node.set("valueType","hex")
-            node.set("endian",endian)
-            node.set("name",get_field_name(f))
+            node.set("size", str(len(f.get("value"))*4))
+            node.set("value", f.get("value"))
+            node.set("valueType", "hex")
+            node.set("endian", endian)
+            node.set("name", get_field_name(f))
             return node
     except Exception as e:
         print(e)
@@ -75,18 +75,18 @@ def transform_field(f,root,depth):
     try:
         if binascii.unhexlify(f.get("value")).decode('utf-8')==f.get("show"):
             node=etree.Element("String")
-            node.set("length",f.get("size"))
-            node.set("value",f.get("show"))
-            node.set("name",get_field_name(f))
+            node.set("length", f.get("size"))
+            node.set("value", f.get("show"))
+            node.set("name", get_field_name(f))
             return node
     except:
         pass
     node=etree.Element('Blob')
-    node.set("valueType","hex")
+    node.set("valueType", "hex")
     if f.get("value") is not None:
-        node.set("value",f.get("value"))
-        node.set("size",str(len(f.get("value"))*4))
-    node.set("name",get_field_name(f))
+        node.set("value", f.get("value"))
+        node.set("size", str(len(f.get("value"))*4))
+    node.set("name", get_field_name(f))
     return node
 
 
@@ -94,19 +94,24 @@ def parse_field(field,root,depth=0):
     # print "-"*depth, field.get("name")
     node=None
     if field.tag=="field":
-        node=transform_field(field,root,depth)
+        node=transform_field(field, root, depth)
         root.append(node)
     else:
         node=root
     for f in field.getchildren():
-        parse_field(f,node,depth+1)
+        parse_field(f, node, depth+1)
 
 
-tree=etree.parse(open(sys.argv[1], 'rb'))
-field=tree.xpath('/pdml/packet/proto[@name=\'dns\']')[0]
+if __name__ == '__main__':
+    
+    PIT_FILE = "dns.xml"
+    # read xxx.pdml file location from cmd 
+    tree=etree.parse(open(sys.argv[1], 'rb'))
+    # name should be protocol's name
+    field=tree.xpath('/pdml/packet/proto[@name=\'dns\']')[0]
 
-root=etree.Element('DataModel')
-
-parse_field(field,root)
-
-print etree.tostring(root,pretty_print=True)
+    root=etree.Element('DataModel')
+    parse_field(field,root)
+    
+    with open(PIT_FILE, "w") as file:
+        file.write(etree.tostring(root,pretty_print=True).decode('utf-8'))
