@@ -9,8 +9,6 @@ from spiutils import *
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '127.0.0.1'
-PROXY_PORT = 12345
 TARGET_IP = '0.0.0.0' # local/remote machine
 TARGET_PORT = 123
 # ===== Target Params =====
@@ -30,23 +28,6 @@ BIN = '~/peach-3.1.124/peach'
 
 files_run = []
 
-def handle_client_connection(client_socket, target_ip, target_port, files_run):
-    #place spike payload in request string and send it to target through sendtoserver
-    request = client_socket.recv(8192)
-    try:
-        client_socket.send("ACK".encode('utf-8'))
-    except IOError as e:
-        if e.errno == errno.EPIPE:
-            print("[ERROR] Broken pipe, need check.")
-            client_socket.close()
-            return
-
-    #send spike payload to server
-    sendtoserver(request, target_ip, target_port, files_run)
-    client_socket.close()
-
-
-
 def run_spike():
     #if there are no excluded spikes, grab all spk files in the provided spks_dir and run spike
     if len(EXCLUDE) == 0:
@@ -57,7 +38,7 @@ def run_spike():
                 newfile = PITS_DIR + '/' + file
                 print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
                 files_run.append(name[0])
-                os.system(f'{BIN} {PROXY_IP} {PROXY_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
 
     # if there are exclusions, grab all spk files that dont contain the exclusion and run spike
     else:
@@ -68,36 +49,9 @@ def run_spike():
                 newfile = PITS_DIR + '/' + file
                 print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
                 files_run.append(name[0])
-                os.system(f'{BIN} {PROXY_IP} {PROXY_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+                os.system(f'{BIN} {TARGET_IP} {TARGET_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
 
 
-def fuzz_application(server):
-    global SUM_BITMAP
-    #create client socket connection
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect((TARGET_IP, TARGET_PORT))
-
-    #call method to run spike which will send the fuzz data to our proxy server
-    client_handler = threading.Thread(target=run_spike, args=())
-    client_handler.start()
-    
-    while True:
-        #Accept the connection from localhost to proxy and send the socket to handle_client_connections
-        client_sock, _ = server.accept()
-        handle_client_connection(client_sock, TARGET_IP, TARGET_PORT, files_run)
-    
-        bitmap = get_bitmap(shmid)
-        clean_shm(shmid)
-    
-        if SUM_BITMAP == b'':
-            SUM_BITMAP = bitmap
-        else:
-            record_path = './record.txt'
-            SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
-
-
-def spike_cmd_boot():
-    pass
 
 # Peach-nowing, just blackbox fuzzing
 if __name__ == "__main__":
@@ -110,14 +64,21 @@ if __name__ == "__main__":
     p = execute(program_boot)
     time.sleep(1)
 
-    # Create Proxy Binding
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
-        server.bind((PROXY_IP, PROXY_PORT))
-        server.listen(5)
-        print(f'[INFO] __AFL_SHM_ID={str(shmid)}')
-        print(f'[INFO] Spike Proxy Listening on {PROXY_IP}:{PROXY_PORT}')
+    print(f'[INFO] __AFL_SHM_ID={str(shmid)}')
 
-        fuzz_application(server)
-    
-    p = execute(program_close)
-    close_shm(shmid)
+    client_handler = threading.Thread(target=run_spike(), args=())
+    client_handler.start()
+
+    try:
+        while True:
+            bitmap = get_bitmap(shmid)
+            clean_shm(shmid)
+
+            if SUM_BITMAP == b'':
+                SUM_BITMAP = bitmap
+            else:
+                record_path = './record.txt'
+                SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
+    finally:
+        p = execute(program_close)
+        close_shm(shmid)
