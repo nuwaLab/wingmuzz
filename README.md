@@ -45,7 +45,8 @@ unzip peach-3.1.124-linux-x86_64-release.zip -d peach-3.1.124
 
 
 ## Spike
-
+Writing Spike's spk file is relatively simple, but it requires some understanding of various protocol's fields. Referring to the RFC documents of protocols, or searching for open source spk files are both feasible methods.
+There are plenty of primitives of Spike, such as *s_string*, *s_string_variable*, *s_binary* and so on. We can construct spk files using these primitives.
 
 ## Peach
 Peach is a renowned fuzzing framework. *Peach Tech* that developed Peach was acquired by GitLab in 2020 to enhance its DevSecOps capability.
