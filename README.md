@@ -61,4 +61,6 @@ At last, run the script.
 ```bash
 python3 pqml2pit.py ~/pqml/file/location.pqml
 ```
-NOTE: The script only provides DataModel, StateModel should be configured mannually. Moreover, the DataModel may not necessarily completely correct, though most of it is right.
+NOTE:
+- The script only provides DataModel, StateModel should be configured mannually. Moreover, the DataModel may not necessarily completely correct, though most of it is right.
+- Please make sure your mono version is not be too new. Mono version <= 5.16 may work (test on v5.12).
