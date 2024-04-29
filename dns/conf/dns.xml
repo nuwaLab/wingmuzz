@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../peach.xsd">
+    <DataModel name="DNS">
+        <Number size="16" value="b10b" valueType="hex" endian="little" name="dns_id"/>
+        <Number size="16" value="8180" valueType="hex" endian="little" name="dns_flags"/>
+        <Number size="16" value="0001" valueType="hex" endian="little" name="dns_count_queries"/>
+        <Number size="16" value="0002" valueType="hex" endian="little" name="dns_count_answers"/>
+        <Number size="16" value="0000" valueType="hex" endian="big" name="dns_count_auth_rr"/>
+        <Number size="16" value="0000" valueType="hex" endian="big" name="dns_count_add_rr"/>
+        <Block name="Queries">
+            <Block name="IN">
+            <Blob valueType="hex" value="03777777046573706e03636f6d00" name="dns_qry_name"/>
+            <Blob valueType="hex" value="03777777046573706e03636f6d00" name="dns_qry_name_len"/>
+            <Blob valueType="hex" value="03777777046573706e03636f6d00" name="dns_count_labels"/>
+            <Number size="16" value="0001" valueType="hex" endian="little" name="dns_qry_type"/>
+            <Number size="16" value="0001" valueType="hex" endian="little" name="dns_qry_class"/>
+            </Block>
+        </Block>
+        <Block name="Answers">
+            <Block name="CNAME">
+            <Blob valueType="hex" value="c00c" name="dns_resp_name"/>
+            <Number size="16" value="0005" valueType="hex" endian="little" name="dns_resp_type"/>
+            <Number size="16" value="0001" valueType="hex" endian="little" name="dns_resp_class"/>
+            <Number size="16" value="0000" valueType="hex" endian="little" name="dns_resp_ttl"/>
+            <Number size="16" value="0014" valueType="hex" endian="little" name="dns_resp_len"/>
+            <Blob valueType="hex" value="057265646972046573706e03676e7302676fc015" name="dns_cname"/>
+            </Block>
+            <Block name="redirIN">
+            <Blob valueType="hex" value="c02a" name="dns_resp_name"/>
+            <Number size="16" value="0001" valueType="hex" endian="little" name="dns_resp_type"/>
+            <Number size="16" value="0001" valueType="hex" endian="little" name="dns_resp_class"/>
+            <Number size="16" value="0000" valueType="hex" endian="little" name="dns_resp_ttl"/>
+            <Number size="16" value="0004" valueType="hex" endian="little" name="dns_resp_len"/>
+            <Blob valueType="hex" value="4447d49e" name="dns_a"/>
+            </Block>
+        </Block>
+        <Blob valueType="hex" name="dns_unsolicited"/>
+    </DataModel>
+
+    <StateModel name="dnsState" initialState="Init">
+        <State name="Init">
+            <Action type="output">
+                <DataModel ref="DNS" />
+            </Action>
+        </State>
+    </StateModel>
+
+	<Test name="Default">
+        <StateModel ref="dnsState"/>
+		<Publisher class="ConsoleHex"/>
+	</Test>
+</Peach>
