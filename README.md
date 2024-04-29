@@ -61,3 +61,4 @@ At last, run the script.
 ```bash
 python3 pqml2pit.py ~/pqml/file/location.pqml
 ```
+NOTE: The script only provides DataModel, StateModel should be configured mannually. Moreover, the DataModel may not necessarily completely correct, though most of it is right.
