@@ -48,7 +48,7 @@
     <!-- Use Socket to listen a specific port -->
     <Agent name="Local">
         <Monitor class="Socket">
-            <Param name="Host" value="0.0.0.0" />
+            <Param name="Host" value="127.0.0.1" />
             <Param name="port" value="5300" />
         </Monitor>
     </Agent>
@@ -62,7 +62,7 @@
         </Logger>
 
 		<Publisher class="tcp.Tcp">
-            <Param name="Host" value="0.0.0.0" />
+            <Param name="Host" value="127.0.0.1" />
             <Param name="Port" value="5300" />
         </Publisher>
     </Test>
