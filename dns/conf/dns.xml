@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../peach.xsd">
-    <DataModel name="DNS">
+    <DataModel name="dns">
         <Number size="16" value="b10b" valueType="hex" endian="little" name="dns_id"/>
         <Number size="16" value="8180" valueType="hex" endian="little" name="dns_flags"/>
         <Number size="16" value="0001" valueType="hex" endian="little" name="dns_count_queries"/>
@@ -37,16 +37,34 @@
         <Blob valueType="hex" name="dns_unsolicited"/>
     </DataModel>
 
-    <StateModel name="dnsState" initialState="Init">
-        <State name="Init">
+    <StateModel name="DnsState" initialState="InitState">
+        <State name="InitState">
             <Action type="output">
                 <DataModel ref="DNS" />
             </Action>
         </State>
     </StateModel>
 
-	<Test name="Default">
-        <StateModel ref="dnsState"/>
-		<Publisher class="ConsoleHex"/>
-	</Test>
+    <!-- Use Socket to listen a specific port -->
+    <Agent name="Local">
+        <Monitor class="Socket">
+            <Param name="Host" value="127.0.0.1" />
+            <Param name="port" value="53" />
+        </Monitor>
+    </Agent>
+
+    <!-- Log save -->
+    <Test name="Default">
+        <Agent ref="Local"/>
+        <StateModel ref="DnsState"/>
+        <Logger class="File">
+            <Param name="Path" value="./peach_logs"/>
+        </Logger>
+
+		<Publisher class="tcp.Tcp">
+            <Param name="Host" value="127.0.0.1" />
+            <Param name="Port" value="53" />
+        </Publisher>
+    </Test>
+
 </Peach>

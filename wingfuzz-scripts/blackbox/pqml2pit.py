@@ -3,6 +3,15 @@ import sys
 import struct
 import binascii
 
+
+''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
+# ===== Network Params =====
+TARGET_PORT = 123
+# ===== Target Params =====
+PROTOCOL = "dns"
+'''----------------------------------------------------------- '''
+
+
 def get_field_name(f):
     if f.get("name") is not None:
         return f.get("name").replace(".","_")
@@ -102,6 +111,47 @@ def parse_field(field,root,depth=0):
         parse_field(f, node, depth+1)
 
 
+# PIT file's header
+def create_xml_header(file):
+    file.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+    file.write("<Peach xmlns=\"http://peachfuzzer.com/2012/Peach\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://peachfuzzer.com/2012/Peach ../peach.xsd\">\n")
+
+
+# Only a simple StateModel, including a InitState and a output Action.
+def create_xml_state(file):
+    file.write("\n\t<StateModel name=\"" + PROTOCOL + "State\" initialState=\"InitState\">\n")
+    file.write("\t\t<State name=\"InitState\">\n")
+    file.write("\t\t\t<Action type=\"output\">\n")
+    file.write("\t\t\t\t<DataModel ref=\"" + PROTOCOL + "\"/>\n")
+    file.write("\t\t\t</Action>\n")
+    file.write("\t\t</State>\n")
+    file.write("\t</StateModel>\n")
+
+
+def create_xml_agent(file):
+    file.write("\n\t<Agent name=\"Local\">\n")
+    file.write("\t\t<Monitor class=\"Socket\">\n")
+    file.write("\t\t\t<Param name=\"Host\" value=\"127.0.0.1\" />\n")
+    file.write("\t\t\t<Param name=\"port\" value=\"" + str(TARGET_PORT) + "\" />\n")
+    file.write("\t\t</Monitor>\n")
+    file.write("\t</Agent>\n")
+
+
+def create_xml_test(file):
+    file.write("\n\t<Test name=\"Default\">\n")
+    file.write("\t\t<Agent ref=\"Local\"/>\n")
+    file.write("\t\t<StateModel ref=\"" + PROTOCOL + "State\"/>\n")
+    file.write("\t\t<Logger class=\"File\">\n")
+    file.write("\t\t\t<Param name=\"Path\" value=\"./peach_logs\"/>\n")
+    file.write("\t\t</Logger>\n")
+    file.write("\t\t<Publisher class=\"tcp.Tcp\">\n")
+    file.write("\t\t\t<Param name=\"Host\" value=\"127.0.0.1\" />\n")
+    file.write("\t\t\t<Param name=\"Port\" value=\"" + str(TARGET_PORT) + "\" />\n")
+    file.write("\t\t</Publisher>\n")
+    file.write("\t</Test>\n")
+
+
+
 if __name__ == '__main__':
     
     PIT_FILE = "dns.xml"
@@ -114,10 +164,9 @@ if __name__ == '__main__':
     parse_field(field,root)
     
     with open(PIT_FILE, "w") as file:
-        file.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
-        file.write("<Peach xmlns=\"http://peachfuzzer.com/2012/Peach\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://peachfuzzer.com/2012/Peach ../peach.xsd\">\n")
+        create_xml_header(file)
         file.write(etree.tostring(root,pretty_print=True).decode('utf-8'))
-        file.write("\n\t<Test name=\"Default\">\n")
-        file.write("\t\t<Publisher class=\"ConsoleHex\"/>\n")
-        file.write("\t</Test>\n")
-        file.write("</Peach>")
+        create_xml_state(file)
+        create_xml_agent(file)
+        create_xml_test(file)
+        file.write("\n</Peach>")
