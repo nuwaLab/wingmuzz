@@ -31,18 +31,6 @@ def run_peach():
             os.system(f'{BIN} {newfile} >peach_log 2>&1')
 
 
-def cov_count():
-    global SUM_BITMAP
-    bitmap = get_bitmap(shmid)
-    clean_shm(shmid)
-
-    if SUM_BITMAP == b'':
-        SUM_BITMAP = bitmap
-    else:
-        record_path = './record.txt'
-        SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
-
-
 # Peach-nowing, just blackbox fuzzing
 if __name__ == "__main__":
     print("========================== [PEACH MANUAL] ==========================")
