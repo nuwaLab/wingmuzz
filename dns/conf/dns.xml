@@ -37,10 +37,10 @@
         <Blob valueType="hex" name="dns_unsolicited"/>
     </DataModel>
 
-    <StateModel name="DnsState" initialState="InitState">
+    <StateModel name="dnsState" initialState="InitState">
         <State name="InitState">
             <Action type="output">
-                <DataModel ref="DNS" />
+                <DataModel ref="dns" />
             </Action>
         </State>
     </StateModel>
@@ -48,22 +48,22 @@
     <!-- Use Socket to listen a specific port -->
     <Agent name="Local">
         <Monitor class="Socket">
-            <Param name="Host" value="127.0.0.1" />
-            <Param name="port" value="53" />
+            <Param name="Host" value="0.0.0.0" />
+            <Param name="port" value="5300" />
         </Monitor>
     </Agent>
 
     <!-- Log save -->
     <Test name="Default">
         <Agent ref="Local"/>
-        <StateModel ref="DnsState"/>
+        <StateModel ref="dnsState"/>
         <Logger class="File">
             <Param name="Path" value="./peach_logs"/>
         </Logger>
 
 		<Publisher class="tcp.Tcp">
-            <Param name="Host" value="127.0.0.1" />
-            <Param name="Port" value="53" />
+            <Param name="Host" value="0.0.0.0" />
+            <Param name="Port" value="5300" />
         </Publisher>
     </Test>
 
