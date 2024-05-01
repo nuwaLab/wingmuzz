@@ -21,10 +21,6 @@ BINARY = "proftpd_v1.3.8"
 SUM_BITMAP = b''
 IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 # ===== Peach Params =====
-#exclude = ['TRUN','STATS','TIME','SRUN','HELP','EXIT','GDOG']
-EXCLUDE = []
-SKIPSTR = 0
-SKIPVAR = 0
 PITS_DIR = '/home/dez/wingfuzz/ntp/conf'
 DURATION_TIME = 3600
 # Running PIT files using the peach binary 
@@ -64,28 +60,15 @@ def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
             record_path = './record.txt'
             SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
 
-def run_spike():
-    #if there are no excluded spikes, grab all spk files in the provided spks_dir and run spike
-    if len(EXCLUDE) == 0:
-        flist = os.listdir(PITS_DIR)
-        for file in sorted(flist):
-            name = file.split('.')
-            if file.endswith(".spk"):
-                newfile = PITS_DIR + '/' + file
-                print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
-                files_run.append(name[0])
-                os.system(f'{BIN} {PROXY_IP} {PROXY_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
-
-    # if there are exclusions, grab all spk files that dont contain the exclusion and run spike
-    else:
-        flist = os.listdir(PITS_DIR)
-        for file in sorted(flist):
-            name = file.split('.')
-            if file.endswith(".spk") and name[0] not in EXCLUDE:
-                newfile = PITS_DIR + '/' + file
-                print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
-                files_run.append(name[0])
-                os.system(f'{BIN} {PROXY_IP} {PROXY_PORT} {newfile} {SKIPSTR} {SKIPVAR} >log 2>&1')
+def run_peach():
+    flist = os.listdir(PITS_DIR)
+    for file in sorted(flist):
+        name = file.split('.')
+        if file.endswith(".xml"):
+            newfile = PITS_DIR + '/' + file
+            print(f"[INFO] Fuzzing {TARGET_IP}:{TARGET_PORT} Using {file}")
+            files_run.append(name[0])
+            os.system(f'{BIN} {newfile} >peach_log 2>&1')
 
 
 def fuzz_application_duration(server, duration):
@@ -99,7 +82,7 @@ def fuzz_application_duration(server, duration):
         handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
 
     #call method to run spike which will send the fuzz data to our proxy server
-    client_handler = threading.Thread(target=run_spike, args=())
+    client_handler = threading.Thread(target=run_peach, args=())
     client_handler.start()
 
     while time.time() - start < duration:
@@ -116,9 +99,6 @@ def fuzz_application_duration(server, duration):
             record_path = './record.txt'
             SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
 
-
-def spike_cmd_boot():
-    pass
 
 # Record message from grey-box
 def record_msg(b_msg):
