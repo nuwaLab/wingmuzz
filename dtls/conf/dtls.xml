@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../peach.xsd">
+  <DataModel name="dtls">
+    <Blob valueType="hex" value="40" name="ip_version"/>
+    <Blob valueType="hex" value="45" name="ip_hdr_len"/>
+    <Number size="8" value="00" valueType="hex" endian="little" name="ip_dsfield" />
+    <Number size="16" value="0093" valueType="hex" endian="little" name="ip_len"/>
+    <Number size="16" value="b8f9" valueType="hex" endian="little" name="ip_id"/>
+    <Number size="16" value="4000" valueType="hex" endian="little" name="ip_flags"/>
+    <Blob valueType="hex" value="4000" name="ip_frag_offset"/>
+    <Number size="8" value="40" valueType="hex" endian="little" name="ip_ttl"/>
+    <Number size="8" value="11" valueType="hex" endian="little" name="ip_proto"/>
+    <Number size="16" value="835e" valueType="hex" endian="little" name="ip_checksum"/>
+    <Blob valueType="hex" name="ip_checksum_status"/>
+    <Blob valueType="hex" value="7f000001" name="ip_src"/>
+    <Blob valueType="hex" value="7f000001" name="ip_addr"/>
+    <Blob valueType="hex" value="7f000001" name="ip_src_host"/>
+    <Blob valueType="hex" value="7f000001" name="ip_host"/>
+    <Blob valueType="hex" value="7f000001" name="ip_dst"/>
+    <Blob valueType="hex" value="7f000001" name="ip_addr"/>
+    <Blob valueType="hex" value="7f000001" name="ip_dst_host"/>
+    <Blob valueType="hex" value="7f000001" name="ip_host"/>
+  </DataModel>
+
+	<StateModel name="dtlsState" initialState="InitState">
+		<State name="InitState">
+			<Action type="output">
+				<DataModel ref="dtls"/>
+			</Action>
+		</State>
+	</StateModel>
+
+	<Agent name="Local">
+		<Monitor class="Socket">
+			<Param name="Host" value="127.0.0.1" />
+			<Param name="port" value="20220" />
+		</Monitor>
+	</Agent>
+
+	<Test name="Default">
+		<Agent ref="Local"/>
+		<StateModel ref="dtlsState"/>
+		<Logger class="File">
+			<Param name="Path" value="./peach_logs"/>
+		</Logger>
+		<Publisher class="udp.Udp">
+			<Param name="Host" value="127.0.0.1" />
+			<Param name="Port" value="20220" />
+		</Publisher>
+	</Test>
+
+</Peach>
