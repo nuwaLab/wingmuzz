@@ -1,4 +1,4 @@
-
+import os
 import threading
 from utils import *
 from spiutils import *
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     print(f'[INFO] __AFL_SHM_ID={str(shmid)}')
 
-    client_handler = threading.Thread(target=run_peach, args=())
+    client_handler = threading.Thread(target=run_peach(), args=())
     client_handler.start()
 
     try:

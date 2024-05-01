@@ -1,8 +1,6 @@
 import os
 import gc
-import sys
 import errno
-import getopt
 import socket
 import threading
 from utils import *

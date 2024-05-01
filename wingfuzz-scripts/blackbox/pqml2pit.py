@@ -6,9 +6,9 @@ import binascii
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-TARGET_PORT = 123
+TARGET_PORT = 5060
 # ===== Target Params =====
-PROTOCOL = "dns"
+PROTOCOL = "sip"
 '''----------------------------------------------------------- '''
 
 
@@ -154,11 +154,11 @@ def create_xml_test(file):
 
 if __name__ == '__main__':
     
-    PIT_FILE = "dns.xml"
+    PIT_FILE = PROTOCOL + ".xml"
     # read xxx.pdml file location from cmd 
     tree=etree.parse(open(sys.argv[1], 'rb'))
     # name should be protocol's name
-    field=tree.xpath('/pdml/packet/proto[@name=\'dns\']')[0]
+    field=tree.xpath('/pdml/packet/proto[@name=\'sip\']')[0]
 
     root=etree.Element('DataModel')
     parse_field(field,root)
