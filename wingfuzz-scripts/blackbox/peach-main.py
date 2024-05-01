@@ -10,18 +10,18 @@ from spiutils import *
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
-PROXY_IP = '0.0.0.0'
+PROXY_IP = '127.0.0.1'
 PROXY_PORT = 12345
-TARGET_IP = '0.0.0.0' # local/remote machine
-TARGET_PORT = 21
+TARGET_IP = '127.0.0.1' # local/remote machine
+TARGET_PORT = 5300
 # ===== Target Params =====
-PROTOCOL = "ftp"
+PROTOCOL = "dns"
 WORK_DIR = "~/wingfuzz"
-BINARY = "proftpd_v1.3.8"
+BINARY = "dnsmasq_2.71"
 SUM_BITMAP = b''
 IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 # ===== Peach Params =====
-PITS_DIR = '/home/dez/wingfuzz/ntp/conf'
+PITS_DIR = '/home/dez/wingfuzz/dns/conf'
 DURATION_TIME = 3600
 # Running PIT files using the peach binary 
 BIN = '~/peach-3.1.124/peach'
