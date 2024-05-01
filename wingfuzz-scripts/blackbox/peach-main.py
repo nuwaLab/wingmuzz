@@ -4,7 +4,7 @@ import errno
 import socket
 import threading
 from utils import *
-from spiutils import *
+from peautils import *
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
@@ -26,29 +26,15 @@ BIN = '~/peach-3.1.124/peach'
 '''----------------------------------------------------------- '''
 
 files_run = []
-msg_list = read_spike_indir(IN_DIR)
+msg_list = read_peach_indir(IN_DIR)
 
-def handle_client_connection(client_socket, target_ip, target_port, files_run):
-    #place spike payload in request string and send it to target through sendtoserver
-    request = client_socket.recv(8192)
-    try:
-        client_socket.send("ACK".encode('utf-8'))
-    except IOError as e:
-        if e.errno == errno.EPIPE:
-            print("[ERROR] Broken pipe, need check.")
-            client_socket.close()
-            return
 
-    #send spike payload to server
-    sendtoserver(request, target_ip, target_port, files_run)
-    client_socket.close()
-
-def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
+def handle_greybox_connection(msg_list):
     global SUM_BITMAP
 
     for i in range(0, len(msg_list)):
         request = msg_list[i]
-        sendtoserver(request, target_ip, target_port, files_run)
+        peachGreyCaseSend(BIN, request)
 
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
@@ -57,6 +43,7 @@ def handle_greybox_connection(msg_list, target_ip, target_port, files_run):
         else:
             record_path = './record.txt'
             SUM_BITMAP = update_sum_bitmap(bitmap, SUM_BITMAP, record_path)
+
 
 def run_peach():
     flist = os.listdir(PITS_DIR)
@@ -69,28 +56,18 @@ def run_peach():
             os.system(f'{BIN} {newfile} >peach_log 2>&1')
 
 
-def fuzz_application_duration(server, duration):
+def cov_log_duration(duration):
     global SUM_BITMAP
-    start = time.time()
-    #create client socket connection
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect((TARGET_IP, TARGET_PORT))
+
+    start_time = time.time()
 
     if len(msg_list) != 0:
-        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT, files_run)
+        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT)
 
-    #call method to run spike which will send the fuzz data to our proxy server
-    client_handler = threading.Thread(target=run_peach, args=())
-    client_handler.start()
-
-    while time.time() - start < duration:
-        #Accept the connection from localhost to proxy and send the socket to handle_client_connections
-        client_sock, _ = server.accept()
-        handle_client_connection(client_sock, TARGET_IP, TARGET_PORT, files_run)
-    
+    while time.time() - start_time < duration:
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
-    
+
         if SUM_BITMAP == b'':
             SUM_BITMAP = bitmap
         else:
@@ -116,7 +93,7 @@ if __name__ == "__main__":
     # Create SHM to record Coverage
     shmid = open_shm()
     program_close = f"sudo pkill -9 -f /repo/{BINARY}"
-    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} &"
+    program_boot = f"sudo __AFL_SHM_ID={str(shmid)} {WORK_DIR}/{PROTOCOL}/repo/{BINARY} -p 5300 &"
     p = execute(program_boot)
     time.sleep(1)
 
@@ -131,7 +108,7 @@ if __name__ == "__main__":
             # Prevent OOM
             gc.collect()
 
-            fuzz_application_duration(server, DURATION_TIME)
+            cov_log_duration(DURATION_TIME)
 
             conn, addr = server.accept()
             with conn:
@@ -162,7 +139,7 @@ if __name__ == "__main__":
                         #stop_thread = True  
                         break
             
-            msg_list = read_spike_indir(IN_DIR)
+            msg_list = read_peach_indir(IN_DIR)
     
     p = execute(program_close)
     close_shm(shmid)
