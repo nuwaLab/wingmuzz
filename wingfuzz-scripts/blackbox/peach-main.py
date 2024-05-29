@@ -17,7 +17,7 @@ PROTOCOL = "dns"
 WORK_DIR = "~/wingfuzz"
 BINARY = "dnsmasq_2.71"
 SUM_BITMAP = b''
-IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
+IN_DIR = f"../../{PROTOCOL}/in/"
 # ===== Peach Params =====
 PITS_DIR = '/home/dez/wingfuzz/dns/conf'
 DURATION_TIME = 3600
@@ -62,7 +62,7 @@ def cov_log_duration(duration):
     start_time = time.time()
 
     if len(msg_list) != 0:
-        handle_greybox_connection(msg_list, TARGET_IP, TARGET_PORT)
+        handle_greybox_connection(msg_list)
 
     while time.time() - start_time < duration:
         bitmap = get_bitmap(shmid)
