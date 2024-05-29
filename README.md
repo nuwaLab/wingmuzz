@@ -4,7 +4,7 @@ WingFuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It e
 Blackbox side uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
 Greybox side uses AFLNet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
-## Prerequisite
+## 0x01 Prerequisite
 WingFuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMWare or Parallel Desktop.
 
 - **AFLNet**
@@ -40,7 +40,7 @@ We utilize Peach v3.1.124, which is under `Peach_Fuzzing/peach`. Peach_Fuzzing r
 ```bash
 unzip peach-3.1.124-linux-x86_64-release.zip -d peach-3.1.124
 ```
-## Configuration
+## 0x02 Configuration
 
 ### Boofuzz
 
@@ -68,7 +68,7 @@ NOTE:
 - The DataModel may not necessarily completely correct, though most of it is right.
 - Please make sure your mono version is not too new. Mono version <= 5.16 may work (test on v5.12).
 
-## Instrument and Run
+## 0x03 Instrument and Run
 It should be emphasized that **we don't need to instrument blackbox IoT devices in real-world scenarios.** We only need to instrument *Wingmates* since it is required by AFLNet for greybox fuzzing.
 
 ### Wingmates Instrumentation
