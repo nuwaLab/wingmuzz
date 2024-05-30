@@ -1,6 +1,5 @@
 # WingFuzz
 WingFuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It enhances blackbox fuzzing with the power of greybox fuzzing (aka. *Wingmate*). 
-
 Blackbox side uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
 Greybox side uses AFLNet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
