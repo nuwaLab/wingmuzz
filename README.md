@@ -44,7 +44,7 @@ unzip peach-3.1.124-linux-x86_64-release.zip -d peach-3.1.124
 
 ### Boofuzz
 
-Boofuzz script configuration can be completed in source code, no additional config files are required.
+Boofuzz script configuration can be done in source code, no additional config files are required.
 
 ### Spike
 Writing Spike's spk file is relatively simple, but it requires some understanding of various protocol's fields. Referring to the RFC documents of protocols, or searching for open source spk files are both feasible methods.
