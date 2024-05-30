@@ -64,7 +64,7 @@ At last, run the script.
 ```bash
 python3 pqml2pit.py ~/pqml/file/location.pqml
 ```
-*NOTICE*:
+*NOTICE:*
 - The DataModel may not necessarily completely correct, though most of it is right.
 - Please make sure your mono version is not too new. Mono version <= 5.16 may work (test on v5.12).
 
