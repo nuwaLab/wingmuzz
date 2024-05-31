@@ -67,10 +67,10 @@ python3 pqml2pit.py ~/pqml/file/location.pqml
 - The DataModel may not necessarily completely correct, though most of it is right.
 - Please make sure your mono version is not too new. Mono version <= 5.16 may work (test on v5.12).
 
-## 0x03 Instrument and Run
-It should be emphasized that **we don't need to instrument blackbox IoT devices in real-world scenarios.** We only need to instrument *Wingmates* since it is required by AFLNet for greybox fuzzing.
+## 0x03 Instrumentation and Run
+It should be emphasized that **we don't need to instrument blackbox IoT devices in real-world scenarios.** In real-world scenarios, we only need to instrument *Wingmates* since it is required by AFLNet for greybox fuzzing. In our coverage experiments, target programs are also instrumented, but it only serves to demonstrate the effectiveness of Wingfuzz in improving coverage.
 
-### Wingmates Instrumentation
+### Instrumentation
 
 We have already provided instrumented Wingmates under the repo directory of each protocol, such as `wingfuzz/dicom/repo/*`. If you need to instrument other programs, you can use `afl-clang-fast` or `afl-clang-fast++` under the aflnet directory. For instance,
 
