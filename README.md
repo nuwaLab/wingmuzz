@@ -26,6 +26,7 @@ Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingFuzz.
 It is worth mention that we should copy the file named `libdlrpc.so` under `/Spike-Fuzzer/usr/lib/` to `/usr/local/lib/` or `/lib/`.
 ```bash
 git clone https://github.com/SofianeHamlaoui/Spike-Fuzzer.git
+cp ~/Spike-Fuzzer/usr/lib/libdlrpc.so /usr/local/lib/
 ```
 
 - **Peach**
