@@ -15,7 +15,6 @@ git clone https://github.com/aflnet/aflnet.git
 
 - **Boofuzz**
 
-Boofuzz can be installed into your Python Env with the following command.
 ```bash
 pip3 install boofuzz
 ```
@@ -23,20 +22,17 @@ pip3 install boofuzz
 - **Spike**
 
 Spike is a C-based fuzzer creation kit, but it also includes a simple scripting capability. There are a few command line tools which can act as interpreters to simple text files (.spk files) containing Spike primitives.
+Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingFuzz.
+It is worth mention that we should copy the file named `libdlrpc.so` under `/Spike-Fuzzer/usr/lib/` to `/usr/local/lib/` or `/lib/`.
 ```bash
 git clone https://github.com/SofianeHamlaoui/Spike-Fuzzer.git
 ```
-Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingFuzz.
-It is worth mention that we should copy the file named `libdlrpc.so` under `/Spike-Fuzzer/usr/lib/` to `/usr/local/lib/` or `/lib/`.
 
 - **Peach**
 
-Peach is an open source fuzzing framework and has been developed for 20 years. There are three main versions. Peach3 is rewritten in C#, released in 2013. *Peach Tech* that developed Peach was acquired by GitLab in 2020 to enhance its DevSecOps capability.
+Peach is an open source fuzzing framework and has been developed for 20 years. There are three main versions. Peach3 is rewritten in C#, released in 2013. *Peach Tech* that developed Peach was acquired by GitLab in 2020 to enhance its DevSecOps capability. We utilize Peach v3.1.124, which is under `Peach_Fuzzing/peach`. Peach_Fuzzing repo provides some software sources of different archs, and we choose to unzip `peach-3.1.124-linux-x86_64-release.zip`.
 ```bash
 git clone https://github.com/TideSec/Peach_Fuzzing.git
-```
-We utilize Peach v3.1.124, which is under `Peach_Fuzzing/peach`. Peach_Fuzzing repo provides some software sources of different archs, and we choose to unzip `peach-3.1.124-linux-x86_64-release.zip`.
-```bash
 unzip peach-3.1.124-linux-x86_64-release.zip -d peach-3.1.124
 ```
 ## 0x02 Configuration
