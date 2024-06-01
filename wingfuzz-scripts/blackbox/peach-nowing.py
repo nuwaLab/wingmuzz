@@ -13,7 +13,7 @@ WORK_DIR = "~/wingfuzz"
 BINARY = "dnsmasq_2.71"
 SUM_BITMAP = b''
 # ===== Peach Params =====
-PITS_DIR = '/home/dez/wingfuzz/dns/conf'
+PITS_DIR = '~/wingfuzz/dns/conf'
 # Running PIT files using the peach binary 
 BIN = '~/peach-3.1.124/peach'
 '''----------------------------------------------------------- '''

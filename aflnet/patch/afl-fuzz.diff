@@ -1,0 +1,77 @@
+diff --git a/afl-fuzz.c b/afl-fuzz.c
+index 3b0ed0a..4be36f2 100644
+--- a/afl-fuzz.c
++++ b/afl-fuzz.c
+@@ -259,7 +259,8 @@ struct queue_entry {
+ 
+   u64 exec_us,                        /* Execution time (us)              */
+       handicap,                       /* Number of queue cycles behind    */
+-      depth;                          /* Path depth                       */
++      depth,                          /* Path depth                       */
++      n_fuzz;                         /* Number of fuzz */
+ 
+   u8* trace_mini;                     /* Trace bytes, if kept             */
+   u32 tc_ref;                         /* Trace bytes ref count            */
+@@ -1589,6 +1590,7 @@ static void add_to_queue(u8* fname, u32 len, u8 passed_det) {
+   q->generating_state_id = target_state_id;
+   q->is_initial_seed = 0;
+   q->unique_state_count = 0;
++  q->n_fuzz       = 1;
+ 
+   if (q->depth > max_depth) max_depth = q->depth;
+ 
+@@ -3993,6 +3995,17 @@ static u8 save_if_interesting(char** argv, void* mem, u32 len, u8 fault) {
+   //s32 fd;
+   u8  keeping = 0, res;
+ 
++  /* Update seed frequency */
++  u32 cksum = hash32(trace_bits, MAP_SIZE, HASH_CONST);
++
++  struct queue_entry* q = queue;
++  while (q) {
++    if (q->exec_cksum == cksum){
++      q->n_fuzz += 1;
++    }
++    q = q->next;
++  }
++
+   if (fault == crash_mode) {
+ 
+     /* Keep only if there are new bits in the map, add to queue for
+@@ -5624,6 +5637,36 @@ static u32 calculate_score(struct queue_entry* q) {
+     default:        perf_score *= 5;
+ 
+   }
++  
++  /* For Power Schedule */
++  u64 fuzz_total;
++  u64 min_fuzz;
++  float fre_cur, fre_min, factor;
++  fuzz_total = 0;
++  min_fuzz = q->n_fuzz; // set current number of fuzz as minimal
++
++  struct queue_entry *queue_it = queue;
++  while (queue_it) {
++    if (queue_it->n_fuzz < min_fuzz) {
++      min_fuzz = queue_it->n_fuzz;
++    }
++    fuzz_total += queue_it->n_fuzz;
++    queue_it = queue_it->next;
++  }
++
++  // frequency of the current seed
++  fre_cur = (float)q->n_fuzz / fuzz_total;
++  if (fre_cur == 0.0) {
++    fre_cur = 1.0;
++  }
++  // the minimal frequency of all seeds
++  fre_min = (float)min_fuzz / fuzz_total;
++  if (fre_min == 0.0) { 
++    fre_min = 1.0;
++  }
++  
++  factor = fre_min / fre_cur;
++  perf_score *= factor;
+ 
+   /* Make sure that we don't go over limit. */
+ 

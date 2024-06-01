@@ -25,7 +25,7 @@ IN_DIR = f"../../../bak-wingfuzz/{PROTOCOL}/in/"
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '/home/dez/wingfuzz/dicom/conf'
+SPKS_DIR = '~/wingfuzz/dicom/conf'
 TCP_OR_UDP = 1  # TCP = 1; UDP = 0; Configure it
 DURATION_TIME = 3600
 UDP_TOTAL_SEND = 10000000    # UDP send number of cases

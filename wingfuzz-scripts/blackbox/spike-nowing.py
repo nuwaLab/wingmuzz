@@ -18,7 +18,7 @@ SUM_BITMAP = b''
 EXCLUDE = []
 SKIPSTR = 0
 SKIPVAR = 0
-SPKS_DIR = '/home/dez/wingfuzz/sip/conf'
+SPKS_DIR = '~/wingfuzz/sip/conf'
 TCP_OR_UDP = 0  # TCP = 1; UDP = 0; Configure it
 UDP_TOTAL_SEND = 100000000    # UDP send number of cases
 # Running spike scripts using the TCP/UDP script interpreter 

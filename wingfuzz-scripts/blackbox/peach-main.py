@@ -19,7 +19,7 @@ BINARY = "dnsmasq_2.71"
 SUM_BITMAP = b''
 IN_DIR = f"../../{PROTOCOL}/in/"
 # ===== Peach Params =====
-PITS_DIR = '/home/dez/wingfuzz/dns/conf'
+PITS_DIR = '~/wingfuzz/dns/conf'
 DURATION_TIME = 3600
 # Running PIT files using the peach binary 
 BIN = '~/peach-3.1.124/peach'
