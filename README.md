@@ -8,10 +8,12 @@ WingFuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMW
 
 - **AFLNet**
 
-We have provided `afl-fuzz, afl-clang-fast, afl-clang-fast++` binary of linux_x86_64 under the aflnet directory. If you use other OS_Archs, you can apply the patch we provided and compile on your own from AFLNet's github repository. Our patch is based on AFLNet's commit 62d63a5.
+We have provided `afl-fuzz, afl-clang-fast, afl-clang-fast++` binary of linux_x86_64 under the aflnet directory. If you use other OS_Archs, you can apply the patch we provided and compile on your own from AFLNet's github repository.
 ```bash
 git clone https://github.com/aflnet/aflnet.git
-patch -p1 <./aflnet/patch/afl-fuzz.diff
+cd aflnet
+git checkout 62d63a5
+patch -p1 <~/wingfuzz/aflnet/patch/afl-fuzz.diff
 ```
 
 - **Boofuzz**
