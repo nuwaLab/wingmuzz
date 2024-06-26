@@ -23,7 +23,7 @@ outputfold = ''
 
 # read the input file and store it as seed
 def readInputFile(file):
-    s = Seed()
+    s = Seed.Seed()
     lines = []
     with open(file, 'r') as f:
         lines = f.read().split("\n")
@@ -94,7 +94,7 @@ def readRecordFile(file):
                 for j in range(i + 1, len(lines)):
                     if lines[i].startswith("========Seed"):
                         seedEnd = j
-                seed = Seed()
+                seed = Seed.Seed()
                 index = seedStart
 
                 while index <= seedEnd:
@@ -311,7 +311,7 @@ def interesting(oldSeed,index):
     
     print(oldSeed.M[index].raw["Content"])
 
-    seed = Seed()
+    seed = Seed.Seed()
     seed.M = oldSeed.M
     seed = m.DryRunSend(seed)
     seed = Probe(seed)
