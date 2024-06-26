@@ -4,7 +4,7 @@ import errno
 import socket
 import threading
 from utils import *
-from peautils import *
+from utilslib import peautils
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
@@ -26,7 +26,7 @@ BIN = '~/peach-3.1.124/peach'
 '''----------------------------------------------------------- '''
 
 files_run = []
-msg_list = read_peach_indir(IN_DIR)
+msg_list = peautils.read_peach_indir(IN_DIR)
 
 
 def handle_greybox_connection(msg_list):
@@ -34,7 +34,7 @@ def handle_greybox_connection(msg_list):
 
     for i in range(0, len(msg_list)):
         request = msg_list[i]
-        peachGreyCaseSend(BIN, request)
+        peautils.peachGreyCaseSend(BIN, request)
 
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
@@ -139,7 +139,7 @@ if __name__ == "__main__":
                         #stop_thread = True  
                         break
             
-            msg_list = read_peach_indir(IN_DIR)
+            msg_list = peautils.read_peach_indir(IN_DIR)
     
     p = execute(program_close)
     close_shm(shmid)

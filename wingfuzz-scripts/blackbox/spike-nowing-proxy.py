@@ -5,7 +5,7 @@ import getopt
 import socket
 import threading
 from utils import *
-from spiutils import *
+from utilslib import spiutils
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
@@ -44,7 +44,7 @@ def handle_client_connection(client_socket, target_ip, target_port, files_run):
             return
 
     #send spike payload to server
-    sendtoserver(request, target_ip, target_port, files_run)
+    spiutils.sendtoserver(request, target_ip, target_port, files_run)
     client_socket.close()
 
 
@@ -102,24 +102,24 @@ def spike_cmd_boot():
     global PROXY_IP, PROXY_PORT, TARGET_IP, TARGET_PORT, SPKS_DIR
 
     if not len (sys.argv[1:]):
-        usage()
+        spiutils.usage()
 
     try:
         opts,args= getopt.getopt(sys.argv[1:],"hl:t:d:e:b", ["help","local","target","dir","exclude","bad"])
     except getopt.GetoptError as err:
         print(str(err))
-        usage()
+        spiutils.usage()
 
     for o,a in opts:
         if o in ("-h","--help"):
-            usage()
+            spiutils.usage()
         elif o in ("-l","--local"):
             try:
                 h = a.split(':')
                 PROXY_IP = h[0]
                 PROXY_PORT = int(h[1])
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-t","--local"):
             try:
@@ -127,13 +127,13 @@ def spike_cmd_boot():
                 TARGET_IP = d[0]
                 TARGET_PORT = int(d[1])
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-d","--dir"):
             try:
                 SPKS_DIR = a
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-e", "--exclude"):
             if ',' in a:

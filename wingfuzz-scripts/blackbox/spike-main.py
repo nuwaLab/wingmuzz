@@ -6,7 +6,7 @@ import getopt
 import socket
 import threading
 from utils import *
-from spiutils import *
+from utilslib import spiutils
 
 ''' ------------< SPIKE AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
@@ -36,7 +36,7 @@ BIN = '~/Spike-Fuzzer/usr/bin/spike-fuzzer-generic-send_tcp'
 '''----------------------------------------------------------- '''
 
 files_run = []
-msg_list = read_spike_indir(IN_DIR)
+msg_list = spiutils.read_spike_indir(IN_DIR)
 
 # Backup for proxy mode
 def handle_client_connection(client_socket, target_ip, target_port, files_run):
@@ -51,7 +51,7 @@ def handle_client_connection(client_socket, target_ip, target_port, files_run):
             return
 
     #send spike payload to server
-    sendtoserver(request, target_ip, target_port, files_run)
+    spiutils.sendtoserver(request, target_ip, target_port, files_run)
     client_socket.close()
 
 
@@ -60,7 +60,7 @@ def handle_greybox_connection(msg_list, target_ip, target_port):
 
     for i in range(0, len(msg_list)):
         request = msg_list[i]
-        greyCaseSend(BIN, TCP_OR_UDP, request, target_ip, target_port)
+        spiutils.greyCaseSend(BIN, TCP_OR_UDP, request, target_ip, target_port)
 
         bitmap = get_bitmap(shmid)
         clean_shm(shmid)
@@ -124,24 +124,24 @@ def spike_cmd_boot():
     global PROXY_IP, PROXY_PORT, TARGET_IP, TARGET_PORT, SPKS_DIR, EXCLUDE
 
     if not len (sys.argv[1:]):
-        usage()
+        spiutils.usage()
 
     try:
         opts,args= getopt.getopt(sys.argv[1:],"hl:t:d:e:b", ["help","local","target","dir","exclude","bad"])
     except getopt.GetoptError as err:
         print(str(err))
-        usage()
+        spiutils.usage()
 
     for o,a in opts:
         if o in ("-h","--help"):
-            usage()
+            spiutils.usage()
         elif o in ("-l","--local"):
             try:
                 h = a.split(':')
                 PROXY_IP = h[0]
                 PROXY_PORT = int(h[1])
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-t","--local"):
             try:
@@ -149,13 +149,13 @@ def spike_cmd_boot():
                 TARGET_IP = d[0]
                 TARGET_PORT = int(d[1])
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-d","--dir"):
             try:
                 SPKS_DIR = a
             except:
-                usage()
+                spiutils.usage()
                 sys.exit(0)
         elif o in ("-e", "--exclude"):
             if ',' in a:
@@ -236,7 +236,7 @@ if __name__ == "__main__":
                         #stop_thread = True  
                         break
             
-            msg_list = read_spike_indir(IN_DIR)
+            msg_list = spiutils.read_spike_indir(IN_DIR)
     
     p = execute(program_close)
     close_shm(shmid)

@@ -1,19 +1,19 @@
 import os
-from pqml2pit import *
 from utils import *
+from utilslib import pqml2pit
 
 def peachGreyCaseSend(bin, raw_case):
     # Create a spk file
     with open('tmp.xml', 'a') as newfile:
         newfile.truncate(0)
-        create_xml_header(newfile)
-        newfile.write("\n\t<DataModel name=\"" + PROTOCOL + "\">\n")
+        pqml2pit.create_xml_header(newfile)
+        newfile.write("\n\t<DataModel name=\"" + pqml2pit.PROTOCOL + "\">\n")
         newfile.write("\t\t<Blob valueType=\"hex\" value=\"" + str(raw_case) + "\"\n")
         newfile.write("</DataModel>\n")
-        create_xml_state(newfile)
-        create_xml_agent(newfile)
-        create_xml_test(newfile)
-        file.write("\n</Peach>")
+        pqml2pit.create_xml_state(newfile)
+        pqml2pit.create_xml_agent(newfile)
+        pqml2pit.create_xml_test(newfile)
+        newfile.write("\n</Peach>")
 
         os.system(f"{bin} {newfile} >peach_log 2>&1")
 

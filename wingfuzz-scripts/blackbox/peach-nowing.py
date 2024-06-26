@@ -1,7 +1,7 @@
 import os
 import threading
 from utils import *
-from spiutils import *
+# from utilslib import spiutils
 
 ''' ------------< PEACH AND TARGET CONFIGURATION >------------ '''
 # ===== Network Params =====
