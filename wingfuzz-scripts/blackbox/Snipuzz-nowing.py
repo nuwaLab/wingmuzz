@@ -20,29 +20,34 @@ restoreSeed = ''
 outputfold = ''
 
 
-
 # read the input file and store it as seed
 def readInputFile(file):
     s = Seed.Seed()
     lines = []
-    with open(file, 'r') as f:
-        lines = f.read().split("\n")
-    for i in range(0, len(lines)):
-        # print(lines[i])
-        if "========" in lines[i]:
-            mes = Seed.Message()
-            for j in range(i + 1, len(lines)):
-                if "========" in lines[j]:
-                    i = j
-                    break
-                if ":" in lines[j]:
-                    mes.append(lines[j])
-            s.append(mes)
+    # with open(file, 'r') as f:
+    with open(file, 'rb') as f:
+        # lines = f.read().split("\n")
+        content = f.read()
+    # for i in range(0, len(lines)):
+    #     # print(lines[i])
+    #     if "========" in lines[i]:
+    #         mes = Seed.Message()
+    #         for j in range(i + 1, len(lines)):
+    #             if "========" in lines[j]:
+    #                 i = j
+    #                 break
+    #             if ":" in lines[j]:
+    #                 mes.append(lines[j])
+    #         s.append(mes)
+    if len(content) != 0:
+        mes = Seed.Message()
+        mes.append(content)
+        s.append(mes)
     # s.display()
     return s
 
 
-# read the input fold and store them as seeds
+# read the input fold and store them as seeds - read seeds under 'in' dir
 def readInputFold(fold):
     seeds = []
     files = os.listdir(fold)

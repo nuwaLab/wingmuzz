@@ -88,6 +88,7 @@ class Messenger:
                 return ""
         return "#interesting-"+str(index)
 
+    # TODO: if without headers, how to connect
     def sendMessage(self,message,time=0): # send a message
         if "IP" in message.headers and "Port" in message.headers:  # socket 
             ip = message.raw["IP"].strip()
