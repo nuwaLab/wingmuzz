@@ -1,10 +1,10 @@
-# WingFuzz
-WingFuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It enhances blackbox fuzzing with the power of greybox fuzzing (aka. *Wingmate*). 
+# WingMuzz
+WingMuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It enhances blackbox fuzzing with the power of greybox fuzzing (aka. *Wingmate*). 
 Blackbox side uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
 Greybox side uses AFLNet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
 ## 0x01 Prerequisite
-WingFuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMWare or Parallel Desktop.
+WingMuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMWare or Parallel Desktop.
 
 - **AFLNet**
 
@@ -13,7 +13,7 @@ We have provided `afl-fuzz, afl-clang-fast, afl-clang-fast++` binary of linux_x8
 git clone https://github.com/aflnet/aflnet.git
 cd aflnet
 git checkout 62d63a5
-patch -p1 <~/wingfuzz/aflnet/patch/afl-fuzz.diff
+patch -p1 <~/wingmuzz/aflnet/patch/afl-fuzz.diff
 ```
 
 - **Boofuzz**
@@ -25,7 +25,7 @@ pip3 install boofuzz
 - **Spike**
 
 Spike is a C-based fuzzer creation kit, but it also includes a simple scripting capability. There are a few command line tools which can act as interpreters to simple text files (.spk files) containing Spike primitives.
-Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingFuzz.
+Spike-Fuzzer is a build of Spike on Archlinux and we use it to develop WingMuzz.
 It is worth mention that we should copy the file named `libdlrpc.so` under `/Spike-Fuzzer/usr/lib/` to `/usr/local/lib/` or `/lib/`.
 ```bash
 git clone https://github.com/SofianeHamlaoui/Spike-Fuzzer.git
@@ -51,7 +51,7 @@ There are plenty of primitives of Spike, such as *s_string*, *s_string_variable*
 
 ### Peach
 Peach is a renowned fuzzing framework.
-Configuring Pit files is a vital part of Peach Fuzzing, whereas writing Pit files is a labor-intensive task. Hence, we provide a small tool to facilitate such task. The script is `wingfuzz/wingfuzz-scripts/blackbox/pqml2pit.py`.
+Configuring Pit files is a vital part of Peach Fuzzing, whereas writing Pit files is a labor-intensive task. Hence, we provide a small tool to facilitate such task. The script is `wingmuzz/wingmuzz-scripts/blackbox/pqml2pit.py`.
 
 First we should get a pdml file from wireshark's pcap file.
 ```bash
@@ -68,20 +68,20 @@ python3 pqml2pit.py ~/pqml/file/location.pqml
 - Please make sure your mono version is not too new. Mono version <= 5.16 may work (test on v5.12).
 
 ## 0x03 Instrumentation and Run
-It should be emphasized that **we don't need to instrument blackbox IoT devices in real-world scenarios.** In real-world scenarios, we only need to instrument *Wingmates* since it is required by AFLNet for greybox fuzzing. In our coverage experiments, target programs are also instrumented, but it only serves to demonstrate the effectiveness of Wingfuzz in improving coverage.
+It should be emphasized that **we don't need to instrument blackbox IoT devices in real-world scenarios.** In real-world scenarios, we only need to instrument *Wingmates* since it is required by AFLNet for greybox fuzzing. In our coverage experiments, target programs are also instrumented, but it only serves to demonstrate the effectiveness of Wingmuzz in improving coverage.
 
 ### Instrumentation
 
-We have already provided instrumented Wingmates under the repo directory of each protocol, such as `wingfuzz/dicom/repo/*`. If you need to instrument other programs, you can use `afl-clang-fast` or `afl-clang-fast++` under the aflnet directory. For instance,
+We have already provided instrumented Wingmates under the repo directory of each protocol, such as `wingmuzz/dicom/repo/*`. If you need to instrument other programs, you can use `afl-clang-fast` or `afl-clang-fast++` under the aflnet directory. For instance,
 
 ```bash
-CC=~/wingfuzz/aflnet/afl-clang-fast CXX=~/wingfuzz/aflnet/afl-clang-fast++ ./configure [options...]
+CC=~/wingmuzz/aflnet/afl-clang-fast CXX=~/wingmuzz/aflnet/afl-clang-fast++ ./configure [options...]
 make
 ```
 
-### Run WingFuzz
+### Run WingMuzz
 
-Running Wingfuzz requires two physical computers capable of communicating with each other over the same local area network (LAN). One for greybox fuzzing, click Run All for jupyter notebook `grey-main.ipynb`. Another for blackbox fuzzing,
+Running Wingmuzz requires two physical computers capable of communicating with each other over the same local area network (LAN). One for greybox fuzzing, click Run All for jupyter notebook `grey-main.ipynb`. Another for blackbox fuzzing,
 ```bash
 python3 xxx-main.py
 ```
