@@ -28,7 +28,7 @@
 |26| DIS | Application | Yes | OpenDIS |
 |27| OPC UA | Application | Yes | open62541, S2OPC, OpcUaStack |
 |28| Matter | Application | Yes | Matter SDK, python-matter-server |
-|29| ATLS | Application | No | - |
+|29| ALTS | Application | No | - |
 |30| BlueTrace | Application | Yes | OpenTrace |
 |31| BSDP | Application | No | - |
 |32| DHCP | Application | Yes | udhcpd, Kea DHCP |
@@ -54,19 +54,18 @@
 |52| DSNP | Application | Yes | DSNP-official |
 |53| RPL | Network | Yes | TinyOS-TinyRPL, librpl |
 |54| MQTT-SN | Application | Yes | mqtt-sn-tools, HiveMQ Edge |
-|55| ALTS | Application | No | - |
-|56| Art-Net | Application | Yes | libartnet, artnet4j |
-|57| BitTorrent | Application | Yes | libtorrent, libtorrent-rasterbar |
-|58| CAP | Application | Yes | Restcomm, SigScale-cap |
-|59| Diameter | Application | Yes | freeDiameter, OpenDiameter |
-|60| DAP / LDAP | Application | Yes | Meerkat DSA, OpenLDAP |
-|61| Exchange ActiveSync | Application | No | - |
-|62| EPP | Application | Yes | libepp-nicbr, epplib |
-|63| FCIP | Application | No | - |
-|64| FIX | Application | Yes | quickFIX, Fix8 |
-|65| Gnutella | Application | Yes | gtk-gnutella, Shareaza, GnucDNA |
-|66| Hyphanet | Application | Yes | fred |
-|67| I2P | Application | Yes | i2pd, I2P+ |
-|68| OSP | Application | Yes | OSP Toolkit |
-|69| SRP | Application | No | - |
-|70| Telnet | Application | Yes | telnetd, libtelnet |
+|55| Art-Net | Application | Yes | libartnet, artnet4j |
+|56| BitTorrent | Application | Yes | libtorrent, libtorrent-rasterbar |
+|57| CAP | Application | Yes | Restcomm, SigScale-cap |
+|58| Diameter | Application | Yes | freeDiameter, OpenDiameter |
+|59| DAP / LDAP | Application | Yes | Meerkat DSA, OpenLDAP |
+|60| Exchange ActiveSync | Application | No | - |
+|61| EPP | Application | Yes | libepp-nicbr, epplib |
+|62| FCIP | Application | No | - |
+|63| FIX | Application | Yes | quickFIX, Fix8 |
+|64| Gnutella | Application | Yes | gtk-gnutella, Shareaza, GnucDNA |
+|65| Hyphanet | Application | Yes | fred |
+|66| I2P | Application | Yes | i2pd, I2P+ |
+|67| OSP | Application | Yes | OSP Toolkit |
+|68| SRP | Application | No | - |
+|69| Telnet | Application | Yes | telnetd, libtelnet |
