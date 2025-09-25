@@ -23,7 +23,6 @@
 |21| LoRaWAN | Network | Yes | LoRaMAC-Node (https://github.com/Lora-net/LoRaMac-node), ChirpStack (https://github.com/chirpstack) |
 |22| XCAP | Application | Yes | OpenXCAP (https://openxcap.org), Kamailio (https://github.com/kamailio/kamailio) |
 |23| X.400 | Application | Yes | PP (https://github.com/Wildboar-Software/pp) |
-|24| WCTP | Application | Yes | WCTP-Gateway (https://github.com/NotifiUs/wctp-gateway),   |
 |24| WCTP | Application | Yes | WCTP-Gateway (https://github.com/NotifiUs/wctp-gateway), php-wctp (https://github.com/NotifiUs/php-wctp) |
 |25| ALSP | Application | No | - |
 |26| DIS | Application | Yes | OpenDIS (https://github.com/open-dis) |
