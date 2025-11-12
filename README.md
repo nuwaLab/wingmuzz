@@ -4,6 +4,16 @@
 
 **Presentation YouTube Link: https://www.youtube.com/watch?v=4OiNBN5q7As**
 
+```bibtex
+@inproceedings{wingmuzz,
+ author = {Zhu, Xiaogang and Dai, Enze and others}, 
+ title = {{WingMuzz}: Blackbox Testing of IoT Protocols via Two-dimensional Fuzzing Schedule},
+ booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering (ASE'25)},
+ year = {2025},
+ numpages = {13},
+}
+```
+
 # WingMuzz
 WingMuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It enhances blackbox fuzzing with the power of greybox fuzzing (aka. *Wingmate*). 
 Blackbox side uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
@@ -93,13 +103,3 @@ python3 xxx-main.py
 ```
 xxx stands for boofuzz, peach and spike.
 
-```bibtex
-@inproceedings{wingmuzz,
- author = {Zhu, Xiaogang, Dai, Enze, et. al.}, 
- title = {WingMuzz: Blackbox Testing of IoT Protocols via Two-dimensional Fuzzing Schedule},
- booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering},
- series = {ASE'25},
- year = {2025},
- numpages = {13},
-}
-```
