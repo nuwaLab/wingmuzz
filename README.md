@@ -3,6 +3,8 @@ WingMuzz is a two-dimensional fuzzing schedule framework for IoT protocols. It e
 Blackbox side uses Boofuzz (the successor of Sulley), Spike and Peach to perform blackbox fuzzing of network protocols.
 Greybox side uses AFLNet to enchance the efficiency and effectiveness of blackbox fuzzing.
 
+YouTube Link: https://www.youtube.com/watch?v=4OiNBN5q7As
+
 ## 0x01 Prerequisite
 WingMuzz and our experiments are tested under the OS of Ubuntu 20.04, either VMWare or Parallel Desktop.
 
