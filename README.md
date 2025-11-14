@@ -8,7 +8,7 @@
 @inproceedings{wingmuzz,
  author = {Zhu, Xiaogang and Dai, Enze and Feng, Xiaotao and Wang, Shaohua and Xia, Xin and Wen, Sheng and Lam, Kwok-Yan and Xiang, Yang}, 
  title = {WingMuzz: Blackbox Testing of IoT Protocols via Two-dimensional Fuzzing Schedule},
- booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering (ASE'25)},
+ booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering},
  year = {2025},
  numpages = {13},
 }
