@@ -10,6 +10,7 @@
  title = {WingMuzz: Blackbox Testing of IoT Protocols via Two-dimensional Fuzzing Schedule},
  booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering},
  year = {2025},
+ pages = {2579--2591},
  numpages = {13},
 }
 ```
